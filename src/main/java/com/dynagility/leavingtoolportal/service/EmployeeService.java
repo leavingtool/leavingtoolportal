@@ -1,5 +1,6 @@
 package com.dynagility.leavingtoolportal.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.dynagility.leavingtoolportal.exceptions.InternalErrorException;
 import com.dynagility.leavingtoolportal.model.Employee;
 import com.dynagility.leavingtoolportal.repository.EmployeeRepository;
-import com.dynagility.leavingtoolportal.util.DateTimeUtil;
 
 @Service
 public class EmployeeService {
@@ -22,7 +22,7 @@ public class EmployeeService {
     public Employee addEmployee(Employee newEmployee) {
         try {
             newEmployee.setId(null);
-            newEmployee.setJoinDate(DateTimeUtil.currentDateTimeUTC());
+            newEmployee.setJoinDate(new Date());
             return employeeRepository.save(newEmployee);
         }
         catch (Exception e) {

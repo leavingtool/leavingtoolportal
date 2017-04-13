@@ -26,7 +26,7 @@ public class Position {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "position")
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Employee> employees = new HashSet<Employee>(0);
 
     public String getId() {

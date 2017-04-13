@@ -1,16 +1,19 @@
 package com.dynagility.leavingtoolportal.model;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
-import com.dynagility.leavingtoolportal.util.CustomDateDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 @Table(name = "employee")
@@ -24,7 +27,7 @@ public class Employee {
     @Column(name = "name", nullable = true)
     private String name;
 
-    @Column(name = "email", nullable = true)
+    @Column(name = "email", unique = true, nullable = true)
     private String email;
 
     @Column(name = "balance_day", nullable = true)
@@ -36,8 +39,8 @@ public class Employee {
     @Column(name = "position_id", nullable = true)
     private String positionId;
 
-    @JsonFormat(pattern = CustomDateDeserializer.DATE_PATTERN)
-    @JsonDeserialize(using = CustomDateDeserializer.class)
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(name = "join_date", nullable = true)
     private Date joinDate;
 
