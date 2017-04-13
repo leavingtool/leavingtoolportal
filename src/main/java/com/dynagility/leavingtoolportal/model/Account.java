@@ -9,69 +9,69 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "account")
+@DynamicUpdate
 public class Account {
-	
-	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "id", nullable = false, length = 255)
-	private String id;
-	
-	@Column(name = "username",unique = true, nullable = false, length = 255)
-	private String username;
-	
-	@Column(name = "password", nullable = false, length = 255)
-	private String password;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "employee_id", nullable = false)
-	private Employee employee;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "role_id", nullable = false)
-	private Role role;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
-	public String getId() {
-		return id;
-	}
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Column(name = "password", nullable = false)
+    private String password;
 
-	public String getUsername() {
-		return username;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
-	public String getPassword() {
-		return password;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public Employee getEmployee() {
-		return employee;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public Role getRole() {
-		return role;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

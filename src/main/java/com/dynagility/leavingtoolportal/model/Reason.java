@@ -11,57 +11,56 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "reason")
+@DynamicUpdate
 public class Reason {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
-	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "id", nullable = false, length = 255)
-	private String id;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@Column(name = "name", nullable = false, length = 255)
-	private String name;
+    @Column(name = "leave_days", nullable = false)
+    private Integer leaveDays;
 
-	@Column(name = "leave_days", nullable = false)
-	private int leaveDays;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "reason")
+    private Set<LeaveDetail> leaveDetails = new HashSet<LeaveDetail>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reason")
-	private Set<LeaveDetail> leaveDetails = new HashSet<LeaveDetail>(0);
+    public String getId() {
+        return id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Integer getLeaveDays() {
+        return leaveDays;
+    }
 
-	public int getLeaveDays() {
-		return leaveDays;
-	}
+    public void setLeaveDays(Integer leaveDays) {
+        this.leaveDays = leaveDays;
+    }
 
-	public void setLeaveDays(int leaveDays) {
-		this.leaveDays = leaveDays;
-	}
+    public Set<LeaveDetail> getLeaveDetails() {
+        return leaveDetails;
+    }
 
-	public Set<LeaveDetail> getLeaveDetails() {
-		return leaveDetails;
-	}
-
-	public void setLeaveDetails(Set<LeaveDetail> leaveDetails) {
-		this.leaveDetails = leaveDetails;
-	}
-
+    public void setLeaveDetails(Set<LeaveDetail> leaveDetails) {
+        this.leaveDetails = leaveDetails;
+    }
 }

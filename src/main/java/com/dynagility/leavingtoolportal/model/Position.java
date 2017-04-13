@@ -11,46 +11,45 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "position")
+@DynamicUpdate
 public class Position {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
-	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "id", nullable = false, length = 255)
-	private String id;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@Column(name = "name", nullable = false, length = 255)
-	private String name;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "position")
+    private Set<Employee> employees = new HashSet<Employee>(0);
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "position")
-	private Set<Employee> employees = new HashSet<Employee>(0);
+    public String getId() {
+        return id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
 
-	public Set<Employee> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(Set<Employee> employees) {
-		this.employees = employees;
-	}
-
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+    }
 }

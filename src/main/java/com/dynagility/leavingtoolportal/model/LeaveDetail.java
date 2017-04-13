@@ -13,95 +13,94 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "leave_detail")
+@DynamicUpdate
 public class LeaveDetail {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
-	@Id
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(name = "id", nullable = false, length = 255)
-	private String id;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "leave_from")
+    private Date leaveFrom;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "leave_from", length = 0)
-	private Date leaveFrom;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "leave_to")
+    private Date leaveTo;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "leave_to", length = 0)
-	private Date leaveTo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "employee_id", nullable = false)
-	private Employee employee;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reason_id", nullable = false)
+    private Reason reason;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "reason_id", nullable = false)
-	private Reason reason;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id", nullable = false)
+    private Status status;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "status_id", nullable = false)
-	private Status status;
+    @Column(name = "approver", nullable = false)
+    private String approver;
 
-	@Column(name = "approver", nullable = false, length = 255)
-	private String approver;
+    public String getId() {
+        return id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public Date getLeaveFrom() {
+        return leaveFrom;
+    }
 
-	public Date getLeaveFrom() {
-		return leaveFrom;
-	}
+    public void setLeaveFrom(Date leaveFrom) {
+        this.leaveFrom = leaveFrom;
+    }
 
-	public void setLeaveFrom(Date leaveFrom) {
-		this.leaveFrom = leaveFrom;
-	}
+    public Date getLeaveTo() {
+        return leaveTo;
+    }
 
-	public Date getLeaveTo() {
-		return leaveTo;
-	}
+    public void setLeaveTo(Date leaveTo) {
+        this.leaveTo = leaveTo;
+    }
 
-	public void setLeaveTo(Date leaveTo) {
-		this.leaveTo = leaveTo;
-	}
+    public Employee getEmployee() {
+        return employee;
+    }
 
-	public Employee getEmployee() {
-		return employee;
-	}
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+    public Reason getReason() {
+        return reason;
+    }
 
-	public Reason getReason() {
-		return reason;
-	}
+    public void setReason(Reason reason) {
+        this.reason = reason;
+    }
 
-	public void setReason(Reason reason) {
-		this.reason = reason;
-	}
+    public Status getStatus() {
+        return status;
+    }
 
-	public Status getStatus() {
-		return status;
-	}
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+    public String getApprover() {
+        return approver;
+    }
 
-	public String getApprover() {
-		return approver;
-	}
-
-	public void setApprover(String approver) {
-		this.approver = approver;
-	}
-
+    public void setApprover(String approver) {
+        this.approver = approver;
+    }
 }
