@@ -18,7 +18,7 @@ public class EmployeeService {
     public List<Employee> getAll() {
         return (List<Employee>) employeeRepository.findAll();
     }
-
+   
     public Employee addEmployee(Employee newEmployee) {
         try {
             newEmployee.setId(null);
