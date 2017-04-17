@@ -22,7 +22,8 @@ public class EmployeeController extends BaseController {
 
     @Autowired
     private EmployeeService employeeService;
-    @Autowired MailService mailService;
+    @Autowired 
+    private MailService mailService;
 
     public static final String SEND_MAIL = "/api/sendmail";
 
