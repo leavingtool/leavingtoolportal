@@ -1,27 +1,25 @@
 package com.dynagility.leavingtoolportal.schedules;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.dynagility.leavingtoolportal.model.Employee;
+import com.dynagility.leavingtoolportal.repository.EmployeeRepository;
+
 @Component
 public class ScheduleTasks {
-
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//
-//	@Scheduled(initialDelay = 1000, fixedRate = 10000)
-//	public void performTask() {
-//
-//		System.out.println("Run Schedule at " + dateFormat.format(new Date()));
-//
-//	}
-
-	@Scheduled(cron = "1 * * * * ?")
-	public void scheduleTasks() {
-
-		System.out.println("Run Schedule at " + dateFormat.format(new Date()));
-	}
-
+    @Autowired
+    EmployeeRepository employeeRepository;
+    @Scheduled(cron = "0 0 0 15 * ?")
+    public void scheduleTasks() {
+        List<Employee> employees = employeeRepository.findAll();
+        for(Employee e : employees ) {
+            e.setBalanceDay(e.getBalanceDay()+1);
+            employeeRepository.save(e);
+        }
+    }
 }
