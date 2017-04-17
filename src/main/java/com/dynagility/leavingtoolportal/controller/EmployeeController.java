@@ -30,9 +30,10 @@ public class EmployeeController extends BaseController {
     public static final String BASE_URL_API = "/api/employee";
     public static final String GET_ALL_EMPLOYEE_URL_API = "/api/employees";
     public static final String GET_EMPLOYEE_DETAIL_BY_ID_API = "/{id}";
+    public static final String UPDATE_EMPLOYEE_BY_ID = "/{id}";
     public static final String DELETE_EMPLOYEE_BY_ID = "/{id}";
-;
 
+    //Add New Employee API
     @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
     public ResponseEntity<?> addNewEmployee(@RequestBody Employee newEmployee) {
 
@@ -43,6 +44,7 @@ public class EmployeeController extends BaseController {
         return new ResponseEntity<>(employee, HttpStatus.CREATED);
     }
 
+    //Get All Employee API
     @RequestMapping(value = GET_ALL_EMPLOYEE_URL_API, method=RequestMethod.GET)
     public ResponseEntity<?> getAllEmployee() {
 
@@ -51,6 +53,7 @@ public class EmployeeController extends BaseController {
         return new ResponseEntity<>(employeeService.getAll(), HttpStatus.OK);
     }
 
+    //Get Employee Detail By Employee Id
     @RequestMapping(value = BASE_URL_API + GET_EMPLOYEE_DETAIL_BY_ID_API, method = RequestMethod.GET)
     public ResponseEntity<?> getEmployeeDetail(@PathVariable("id") String id) {
 
@@ -59,12 +62,13 @@ public class EmployeeController extends BaseController {
         Employee employeeDetail = employeeService.getEmployeeById(id);
 
         if (employeeDetail == null) {
-            throw new NotFoundException("Employee is missing");
+            throw new NotFoundException("Employee is not there");
         }
 
         return new ResponseEntity<Employee>(employeeDetail, HttpStatus.OK);
     }
 
+    //Delete Employee By Employee Id
     @RequestMapping(value = BASE_URL_API + DELETE_EMPLOYEE_BY_ID, method=RequestMethod.DELETE)
     public HttpEntity<?> deleteEmployee(@PathVariable("id") String id) {
 
@@ -73,13 +77,29 @@ public class EmployeeController extends BaseController {
         boolean employee = employeeService.deleteEmployeeById(id);
 
         if (employee == false) {
-            throw new NotFoundException("Employee is missing");
+            throw new NotFoundException("Employee is not there");
         } 
         else {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
+    //Update Employee Info By Employee Id
+    @RequestMapping(value = BASE_URL_API + UPDATE_EMPLOYEE_BY_ID, method=RequestMethod.PUT)
+    public ResponseEntity<?> updateEmployee(@PathVariable("id") String id, @RequestBody Employee employee) {
+
+        checkLogin();
+
+        employee.setId(id);
+        Employee updateEmployee = employeeService.updateEmployee(employee);
+        if (updateEmployee == null) {
+            throw new NotFoundException("Employee is not there");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    //Send Mail API
     @RequestMapping (value = SEND_MAIL, method = RequestMethod.GET)
     public ResponseEntity<?> sendMail() throws IOException{
         mailService.sendMail();

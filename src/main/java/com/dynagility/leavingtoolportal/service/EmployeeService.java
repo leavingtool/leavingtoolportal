@@ -52,4 +52,17 @@ public class EmployeeService {
 
         return false;
     }
+
+    public Employee updateEmployee(Employee employee) {
+        Employee updateEmployee = employeeRepository.findOne(employee.getId());
+
+        if (updateEmployee == null) {
+            return null;
+        }
+
+        updateEmployee.update(employee);
+        employeeRepository.save(updateEmployee);
+
+        return updateEmployee;
+    }
 }
