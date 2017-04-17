@@ -18,7 +18,7 @@ public class BaseController {
     @Autowired
     protected SecurityUtil securityUtil;
 
-    public void checkAuthenticatedAndAuthorizated() {
+    public void checkLogin() {
         if (!securityUtil.checkAuthentication()) {
             throw new NotAuthenticatedException();
         }

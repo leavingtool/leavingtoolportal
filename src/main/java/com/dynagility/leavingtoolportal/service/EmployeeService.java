@@ -38,4 +38,18 @@ public class EmployeeService {
 
         return employeeRepository.findOne(id);
     }
+
+    public boolean deleteEmployeeById(String id) {
+        Employee employee = employeeRepository.findOne(id);
+        if (employee == null) {
+            return false;
+        }
+
+        if (employee != null) {
+            employeeRepository.delete(employee);
+            return true;
+        }
+
+        return false;
+    }
 }
