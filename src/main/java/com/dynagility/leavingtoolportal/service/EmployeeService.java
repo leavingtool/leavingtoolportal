@@ -19,30 +19,24 @@ public class EmployeeService {
     private EmployeeDao employeeRepository;
 
     public List<EmployeeVO> getAll() {
-        List<Employee> employees= (List<Employee>) employeeRepository.findAll();
-        List<EmployeeVO> employeeVOs = new  ArrayList<EmployeeVO>();
+        List<EmployeeVO> employeeVOs= employeeRepository.findAll();
 
-        for(Employee e : employees) {
-            EmployeeVO eVO = new EmployeeVO(e);
-            eVO.setId(e.getId());
-            employeeVOs.add(eVO);
-        }
         return employeeVOs;
     }
-   
-    public Employee addEmployee(Employee newEmployee) {
+
+    public EmployeeVO addEmployee(EmployeeVO newEmployeeVO) {
         try {
-            newEmployee.setId(null);
-            newEmployee.setJoinDate(new Date());
-             employeeRepository.save(newEmployee);
-             return employeeRepository.findById(newEmployee.getId());
+            newEmployeeVO.setId(null);
+            newEmployeeVO.setJoinDate(new Date());
+            employeeRepository.save(newEmployeeVO);
+            return employeeRepository.findById(newEmployeeVO.getId());
         }
         catch (Exception e) {
             throw new InternalErrorException(e.getMessage());
         }
     }
 
-    public Employee getEmployeeById(String id) {
+    public EmployeeVO getEmployeeById(String id) {
         if (id == null) {
             return null;
         }
@@ -52,10 +46,10 @@ public class EmployeeService {
 
     public boolean deleteEmployeeById(String id) {
         try {
-            Employee employee = employeeRepository.findById(id);
+            EmployeeVO employeeVO = employeeRepository.findById(id);
 
-            if (employee != null) {
-                employeeRepository.delete(employee);
+            if (employeeVO != null) {
+                employeeRepository.delete(employeeVO);
                 return true;
             }
         }
@@ -66,14 +60,14 @@ public class EmployeeService {
         return false;
     }
 
-    public Employee updateEmployee(Employee employee) {
-        Employee updateEmployee = employeeRepository.findById(employee.getId());
+    public EmployeeVO updateEmployee(EmployeeVO employeeVO) {
+        EmployeeVO updateEmployee = employeeRepository.findById(employeeVO.getId());
 
         if (updateEmployee == null) {
             return null;
         }
 
-        updateEmployee.update(employee);
+        updateEmployee.update(employeeVO);
         employeeRepository.save(updateEmployee);
 
         return updateEmployee;

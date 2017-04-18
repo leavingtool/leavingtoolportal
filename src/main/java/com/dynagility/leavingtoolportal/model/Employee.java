@@ -44,15 +44,6 @@ public class Employee {
     @Column(name = "join_date", nullable = true)
     private Date joinDate;
 
-    //Update Field In Model
-    public void update(Employee source) {
-        this.setName(source.getName() != null ? source.getName() : this.getName());
-        this.setEmail(source.getEmail() != null ? source.getEmail() : this.getEmail());
-        this.setBalanceDay(source.getBalanceDay() != null ? source.getBalanceDay() : this.getBalanceDay());
-        this.setDeductedDay(source.getDeductedDay() != null ? source.getDeductedDay() : this.getDeductedDay());
-        this.setPositionId(source.getPositionId() != null ? source.getPositionId() : this.getPositionId());
-    }
-
     public String getId() {
         return id;
     }
