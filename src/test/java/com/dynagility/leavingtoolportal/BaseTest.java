@@ -20,8 +20,8 @@ public abstract class BaseTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-//    @Autowired
-//    protected EmployeeRepository employeeRepository;
+//   @Autowired
+//   protected EmployeeRepository employeeRepository;
 
     @MockBean protected SecurityUtil mockSecurityUtil;
 
