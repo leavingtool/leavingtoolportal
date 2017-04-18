@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.repository.EmployeeRepository;
 import com.dynagility.leavingtoolportal.security.SecurityUtil;
 
 @RunWith(SpringRunner.class)
@@ -21,8 +20,8 @@ public abstract class BaseTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    protected EmployeeRepository employeeRepository;
+//    @Autowired
+//    protected EmployeeRepository employeeRepository;
 
     @MockBean protected SecurityUtil mockSecurityUtil;
 

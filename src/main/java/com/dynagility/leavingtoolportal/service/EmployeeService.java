@@ -1,29 +1,38 @@
 package com.dynagility.leavingtoolportal.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
 import com.dynagility.leavingtoolportal.exceptions.InternalErrorException;
 import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.repository.EmployeeRepository;
+import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 
 @Service
 public class EmployeeService {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeDao employeeRepository;
 
-    public List<Employee> getAll() {
-        return (List<Employee>) employeeRepository.findAll();
+    public List<EmployeeVO> getAll() {
+        List<Employee> employees= (List<Employee>) employeeRepository.findAll();
+        List<EmployeeVO> employeeVOs = new  ArrayList<EmployeeVO>();
+        for(Employee e : employees) {
+            EmployeeVO eVO = new EmployeeVO(e);
+            employeeVOs.add(eVO);
+        }
+        return employeeVOs;
     }
    
     public Employee addEmployee(Employee newEmployee) {
         try {
             newEmployee.setId(null);
             newEmployee.setJoinDate(new Date());
-            return employeeRepository.save(newEmployee);
+             employeeRepository.save(newEmployee);
+             return employeeRepository.findById(newEmployee.getId());
         }
         catch (Exception e) {
             throw new InternalErrorException(e.getMessage());
@@ -36,11 +45,11 @@ public class EmployeeService {
             return null;
         }
 
-        return employeeRepository.findOne(id);
+        return employeeRepository.findById(id);
     }
 
     public boolean deleteEmployeeById(String id) {
-        Employee employee = employeeRepository.findOne(id);
+        Employee employee = employeeRepository.findById(id);
         if (employee == null) {
             return false;
         }
@@ -49,12 +58,12 @@ public class EmployeeService {
             employeeRepository.delete(employee);
             return true;
         }
-
         return false;
+
     }
 
     public Employee updateEmployee(Employee employee) {
-        Employee updateEmployee = employeeRepository.findOne(employee.getId());
+        Employee updateEmployee = employeeRepository.findById(employee.getId());
 
         if (updateEmployee == null) {
             return null;
