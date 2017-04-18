@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
+import com.dynagility.leavingtoolportal.model.Account;
 import com.dynagility.leavingtoolportal.model.Employee;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
 import com.dynagility.leavingtoolportal.service.MailService;
@@ -32,6 +33,7 @@ public class EmployeeController extends BaseController {
     public static final String GET_EMPLOYEE_DETAIL_BY_ID_API = "/{id}";
     public static final String UPDATE_EMPLOYEE_BY_ID = "/{id}";
     public static final String DELETE_EMPLOYEE_BY_ID = "/{id}";
+    public static final String CHECK_ACCOUNT = "/api/account";
 
     //Add New Employee API
     @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
@@ -104,5 +106,19 @@ public class EmployeeController extends BaseController {
     public ResponseEntity<?> sendMail() throws IOException{
         mailService.sendMail();
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+  //Login Test
+    @RequestMapping(value = CHECK_ACCOUNT, method=RequestMethod.POST)
+    public ResponseEntity<?> loginTest(@RequestBody Account account) {
+
+        boolean account1 = employeeService.checkLogin(account);
+
+        if (account1 == false) {
+            throw new NotFoundException("Cannot Login");
+        } 
+        else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }

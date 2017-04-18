@@ -7,9 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dynagility.leavingtoolportal.Dao.AccountDao;
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
 import com.dynagility.leavingtoolportal.exceptions.InternalErrorException;
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
+import com.dynagility.leavingtoolportal.model.Account;
 import com.dynagility.leavingtoolportal.model.Employee;
 import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 
@@ -17,6 +19,8 @@ import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 public class EmployeeService {
     @Autowired
     private EmployeeDao employeeRepository;
+    @Autowired
+    private AccountDao accountRepository;
 
     public List<EmployeeVO> getAll() {
         List<Employee> employees= (List<Employee>) employeeRepository.findAll();
@@ -77,5 +81,21 @@ public class EmployeeService {
         employeeRepository.save(updateEmployee);
 
         return updateEmployee;
+    }
+
+    public boolean checkLogin(Account account) {
+        try {
+        	Account checkAccount = accountRepository.findById(account.getUsername());
+        	boolean flags = checkAccount.getPassword().equalsIgnoreCase(account.getPassword());
+        	if (flags == true) {
+                return true;
+        	}
+        	else {
+        		return false;
+        	}
+        }
+        catch (Exception e) {
+            throw new NotFoundException("Cannot Login");
+        }
     }
 }
