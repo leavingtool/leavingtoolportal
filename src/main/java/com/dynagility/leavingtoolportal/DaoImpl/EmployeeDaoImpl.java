@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
+import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 import com.dynagility.leavingtoolportal.model.Employee;
 @Repository
 @Transactional
@@ -26,21 +27,20 @@ public  class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
+    public Employee findById(String id) {
+        String hql = "select e from Employee e where id =:id";
+        Employee employee = null;
+        employee =  (Employee) entityManager.createQuery(hql).setParameter("id", id).getSingleResult();
+        return employee;
+    }
+
+    @Override
     public void save(Employee employee) {
         entityManager.persist(employee);
     }
 
     @Override
-    public Employee findById(String id) {
-        // TODO Auto-generated method stub
-        String hql = "select e from Employee e where id =:id";
-        Employee employee = null;
-        employee =  (Employee) entityManager.createQuery(hql).setParameter("id", id).getResultList();
-        return employee;
-    }
-
-    @Override
     public void delete(Employee employee) {
-        // TODO Auto-generated method stub
+        entityManager.remove(employee);
     }
 }

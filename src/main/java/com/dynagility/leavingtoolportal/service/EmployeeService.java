@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
 import com.dynagility.leavingtoolportal.exceptions.InternalErrorException;
+import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 import com.dynagility.leavingtoolportal.model.Employee;
 import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 
@@ -20,8 +21,10 @@ public class EmployeeService {
     public List<EmployeeVO> getAll() {
         List<Employee> employees= (List<Employee>) employeeRepository.findAll();
         List<EmployeeVO> employeeVOs = new  ArrayList<EmployeeVO>();
+
         for(Employee e : employees) {
             EmployeeVO eVO = new EmployeeVO(e);
+            eVO.setId(e.getId());
             employeeVOs.add(eVO);
         }
         return employeeVOs;
@@ -40,7 +43,6 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(String id) {
-
         if (id == null) {
             return null;
         }
@@ -49,17 +51,19 @@ public class EmployeeService {
     }
 
     public boolean deleteEmployeeById(String id) {
-        Employee employee = employeeRepository.findById(id);
-        if (employee == null) {
-            return false;
-        }
+        try {
+            Employee employee = employeeRepository.findById(id);
 
-        if (employee != null) {
-            employeeRepository.delete(employee);
-            return true;
+            if (employee != null) {
+                employeeRepository.delete(employee);
+                return true;
+            }
         }
+        catch (Exception e) {
+            throw new NotFoundException("Employee is not there");
+        }
+ 
         return false;
-
     }
 
     public Employee updateEmployee(Employee employee) {

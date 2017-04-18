@@ -8,8 +8,12 @@ import com.dynagility.leavingtoolportal.model.Employee;
 
 @Component
 public interface EmployeeDao {
+
     public List<Employee> findAll();
+
+    public Employee findById (String id);
+
     public void save(Employee employee);
-    public Employee findById(String id);
+
     public void delete(Employee employee);
 }
