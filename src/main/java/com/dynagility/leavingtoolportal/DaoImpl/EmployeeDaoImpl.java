@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
 import com.dynagility.leavingtoolportal.model.Employee;
+import com.dynagility.leavingtoolportal.model.EmployeeMapper;
 import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 @Repository
 @Transactional
@@ -53,24 +54,31 @@ public  class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public void save(EmployeeVO employeeVO) {
-        Employee employee =  new Employee();
 
-        employee.setId(employeeVO.getId());
-        employee.setName(employeeVO.getName());
-        employee.setEmail(employeeVO.getEmail());
-        employee.setBalanceDay(employeeVO.getBalanceDay());
-        employee.setDeductedDay(employeeVO.getDeductedDay());
-        employee.setPositionId(employeeVO.getPositionId());
-        employee.setJoinDate(employeeVO.getJoinDate());
+        if (employeeVO.getId() != null){
+          Employee employee = findById(employeeVO.getId());
+          EmployeeMapper.updateEmployee(employeeVO, employee);
 
-        entityManager.persist(entityManager.contains(employee) ? employee : entityManager.merge(employee));
+          entityManager.merge(employee);
+        }
+        else{
+            Employee employee =  new Employee();
+
+            employee.setId(employeeVO.getId());
+            employee.setName(employeeVO.getName());
+            employee.setEmail(employeeVO.getEmail());
+            employee.setBalanceDay(employeeVO.getBalanceDay());
+            employee.setDeductedDay(employeeVO.getDeductedDay());
+            employee.setPositionId(employeeVO.getPositionId());
+            employee.setJoinDate(employeeVO.getJoinDate());
+            
+            entityManager.persist(employee);
+        }
     }
 
     @Override
     public void delete(EmployeeVO employeeVO) {
 
         entityManager.remove(findById(employeeVO.getId()));
-
-//        entityManager.remove(entityManager.contains(employee) ? employee : entityManager.merge(employee));
     }
 }

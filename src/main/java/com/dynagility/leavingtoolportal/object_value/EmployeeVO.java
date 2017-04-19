@@ -38,14 +38,6 @@ public class EmployeeVO implements Serializable {
         this.joinDate = employee.getJoinDate();
     }
 
-    public void update(EmployeeVO source) {
-        this.setName(source.getName() != null ? source.getName() : this.getName());
-        this.setEmail(source.getEmail() != null ? source.getEmail() : this.getEmail());
-        this.setBalanceDay(source.getBalanceDay() != null ? source.getBalanceDay() : this.getBalanceDay());
-        this.setDeductedDay(source.getDeductedDay() != null ? source.getDeductedDay() : this.getDeductedDay());
-        this.setPositionId(source.getPositionId() != null ? source.getPositionId() : this.getPositionId());
-    }
-
     public String getId() {
         return id;
     }

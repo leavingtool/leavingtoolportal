@@ -61,15 +61,9 @@ public class EmployeeService {
     }
 
     public EmployeeVO updateEmployee(EmployeeVO employeeVO) {
-        EmployeeVO updateEmployee = employeeDao.findEmployeeById(employeeVO.getId());
 
-        if (updateEmployee == null) {
-            return null;
-        }
+        employeeDao.save(employeeVO);
 
-        updateEmployee.update(employeeVO);
-        employeeDao.save(updateEmployee);
-
-        return updateEmployee;
+        return employeeVO;
     }
 }
