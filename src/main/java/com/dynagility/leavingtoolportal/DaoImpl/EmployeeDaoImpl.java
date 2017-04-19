@@ -1,5 +1,6 @@
 package com.dynagility.leavingtoolportal.DaoImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,15 +20,35 @@ public  class EmployeeDaoImpl implements EmployeeDao {
     @SuppressWarnings("unchecked")
     @Override
     public List<EmployeeVO> findAll(){
-       return (List<EmployeeVO>) entityManager.createQuery("from Employee").getResultList();
+        String hql = "from Employee";
+        List<Employee> employees = null;
+        employees = entityManager.createQuery(hql).getResultList();
+
+        List<EmployeeVO> emVos = new ArrayList<EmployeeVO>();
+        for(Employee e : employees) {
+            emVos.add(new EmployeeVO(e));
+        }
+        return emVos;
+    }
+
+    public Employee findById(String id) {
+        String hql = "select e from Employee e where id =:id";
+        Employee employee = null;
+        employee =  (Employee) entityManager.createQuery(hql).setParameter("id", id).getSingleResult();
+        return employee;
     }
 
     @Override
-    public EmployeeVO findById(String id) {
-        String hql = "select e from Employee e where id =:id";
-        EmployeeVO employeeVO = null;
-        employeeVO =  (EmployeeVO) entityManager.createQuery(hql).setParameter("id", id).getSingleResult();
-        return employeeVO;
+    public EmployeeVO findEmployeeById(String id) {
+        return new EmployeeVO(findById(id));
+    }
+
+    @Override
+    public EmployeeVO findEmployeeByEmail(String email) {
+        String hql = "select e from Employee e where email =:email";
+        Employee employee = null;
+        employee =  (Employee) entityManager.createQuery(hql).setParameter("email", email).getSingleResult();
+        return new EmployeeVO(employee);
     }
 
     @Override
@@ -41,12 +62,15 @@ public  class EmployeeDaoImpl implements EmployeeDao {
         employee.setDeductedDay(employeeVO.getDeductedDay());
         employee.setPositionId(employeeVO.getPositionId());
         employee.setJoinDate(employeeVO.getJoinDate());
-        
-        entityManager.persist(employee);
+
+        entityManager.persist(entityManager.contains(employee) ? employee : entityManager.merge(employee));
     }
 
     @Override
     public void delete(EmployeeVO employeeVO) {
-        entityManager.remove(employeeVO);
+
+        entityManager.remove(findById(employeeVO.getId()));
+
+//        entityManager.remove(entityManager.contains(employee) ? employee : entityManager.merge(employee));
     }
 }

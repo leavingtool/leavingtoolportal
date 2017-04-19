@@ -16,10 +16,10 @@ import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 @Service
 public class EmployeeService {
     @Autowired
-    private EmployeeDao employeeRepository;
+    private EmployeeDao employeeDao;
 
     public List<EmployeeVO> getAll() {
-        List<EmployeeVO> employeeVOs= employeeRepository.findAll();
+        List<EmployeeVO> employeeVOs= employeeDao.findAll();
 
         return employeeVOs;
     }
@@ -28,8 +28,8 @@ public class EmployeeService {
         try {
             newEmployeeVO.setId(null);
             newEmployeeVO.setJoinDate(new Date());
-            employeeRepository.save(newEmployeeVO);
-            return employeeRepository.findById(newEmployeeVO.getId());
+            employeeDao.save(newEmployeeVO);
+            return employeeDao.findEmployeeByEmail(newEmployeeVO.getEmail());
         }
         catch (Exception e) {
             throw new InternalErrorException(e.getMessage());
@@ -41,15 +41,15 @@ public class EmployeeService {
             return null;
         }
 
-        return employeeRepository.findById(id);
+        return employeeDao.findEmployeeById(id);
     }
 
     public boolean deleteEmployeeById(String id) {
         try {
-            EmployeeVO employeeVO = employeeRepository.findById(id);
+            EmployeeVO employeeVO = employeeDao.findEmployeeById(id);
 
             if (employeeVO != null) {
-                employeeRepository.delete(employeeVO);
+                employeeDao.delete(employeeVO);
                 return true;
             }
         }
@@ -61,14 +61,14 @@ public class EmployeeService {
     }
 
     public EmployeeVO updateEmployee(EmployeeVO employeeVO) {
-        EmployeeVO updateEmployee = employeeRepository.findById(employeeVO.getId());
+        EmployeeVO updateEmployee = employeeDao.findEmployeeById(employeeVO.getId());
 
         if (updateEmployee == null) {
             return null;
         }
 
         updateEmployee.update(employeeVO);
-        employeeRepository.save(updateEmployee);
+        employeeDao.save(updateEmployee);
 
         return updateEmployee;
     }

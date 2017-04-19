@@ -44,6 +44,9 @@ public class Employee {
     @Column(name = "join_date", nullable = true)
     private Date joinDate;
 
+    public Employee() {
+    }
+
     public String getId() {
         return id;
     }

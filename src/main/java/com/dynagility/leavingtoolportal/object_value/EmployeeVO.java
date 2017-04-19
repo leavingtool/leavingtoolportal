@@ -1,10 +1,11 @@
 package com.dynagility.leavingtoolportal.object_value;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.dynagility.leavingtoolportal.model.Employee;
 
-public class EmployeeVO {
+public class EmployeeVO implements Serializable {
     private String id;
     private String name;
     private String email;
@@ -13,7 +14,30 @@ public class EmployeeVO {
     private String positionId;
     private Date joinDate;
 
-    //Update Field In Model
+    public EmployeeVO() {
+    }
+
+    public EmployeeVO(String id, String name, String email, Integer balanceDay,
+            Integer deductedDay, String positionId, Date joinDate) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.balanceDay = balanceDay;
+        this.deductedDay = deductedDay;
+        this.positionId = positionId;
+        this.joinDate = joinDate;
+    }
+
+    public EmployeeVO(Employee employee) {
+        this.id = employee.getId();
+        this.name = employee.getName();
+        this.email = employee.getEmail();
+        this.balanceDay = employee.getBalanceDay();
+        this.deductedDay = employee.getDeductedDay();
+        this.positionId = employee.getPositionId();
+        this.joinDate = employee.getJoinDate();
+    }
+
     public void update(EmployeeVO source) {
         this.setName(source.getName() != null ? source.getName() : this.getName());
         this.setEmail(source.getEmail() != null ? source.getEmail() : this.getEmail());

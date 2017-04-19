@@ -12,7 +12,9 @@ public interface EmployeeDao {
 
     public List<EmployeeVO> findAll();
 
-    public EmployeeVO findById (String id);
+    public EmployeeVO findEmployeeById (String id);
+
+    public EmployeeVO findEmployeeByEmail (String email);
 
     public void save(EmployeeVO employeeVO);
 
