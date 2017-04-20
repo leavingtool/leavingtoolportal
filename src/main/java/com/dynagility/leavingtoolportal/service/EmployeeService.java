@@ -41,7 +41,12 @@ public class EmployeeService {
             EmployeeVO emVo = employeeDao.findEmployeeById(id);
             return emVo;
         }
-        catch (Exception e) {
+
+        catch (InternalErrorException in) {
+            throw new InternalErrorException(in.getMessage());
+        }
+
+        catch (NotFoundException e) {
             throw new NotFoundException("Employee is not there");
         }
     }
@@ -50,7 +55,12 @@ public class EmployeeService {
         try {
             employeeDao.delete(id);
         }
-        catch (Exception e) {
+
+        catch (InternalErrorException in) {
+            throw new InternalErrorException(in.getMessage());
+        }
+
+        catch (NotFoundException e) {
             throw new NotFoundException("Employee is not there");
         }
     }
@@ -60,7 +70,12 @@ public class EmployeeService {
             EmployeeVO emVo = employeeDao.save(employeeVO);
             return emVo;
         }
-        catch (Exception e) {
+
+        catch (InternalErrorException in) {
+            throw new InternalErrorException(in.getMessage());
+        }
+
+        catch (NotFoundException e) {
             throw new NotFoundException("Employee is not there");
         }
 

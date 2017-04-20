@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
 import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.model.EmployeeMapper;
+import com.dynagility.leavingtoolportal.model.mapper.EmployeeMapper;
 import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 @Repository
 @Transactional
@@ -47,7 +47,7 @@ public  class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public EmployeeVO save(EmployeeVO employeeVO) {
 
-////////// Update Function //////////
+    	// Update Function
         if (employeeVO.getId() != null) {
               Employee employee = findById(employeeVO.getId());
               EmployeeMapper.updateEmployee(employeeVO, employee);
@@ -56,7 +56,7 @@ public  class EmployeeDaoImpl implements EmployeeDao {
               return EmployeeMapper.updateEmployeeVO(employee);
         }
 
-////////// Add New Function //////////
+        //Add New Function
         else {
             Employee employee =  new Employee();
 
