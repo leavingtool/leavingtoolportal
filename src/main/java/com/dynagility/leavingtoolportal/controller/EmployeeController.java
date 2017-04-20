@@ -62,10 +62,6 @@ public class EmployeeController extends BaseController {
 
         EmployeeVO employeeDetail = employeeService.getEmployeeById(id);
 
-        if (employeeDetail == null) {
-            throw new NotFoundException("Employee is not there");
-        }
-
         return new ResponseEntity<EmployeeVO>(employeeDetail, HttpStatus.OK);
     }
 
@@ -75,14 +71,9 @@ public class EmployeeController extends BaseController {
 
         checkLogin();
 
-        boolean employee = employeeService.deleteEmployeeById(id);
+        employeeService.deleteEmployeeById(id);
 
-        if (employee == false) {
-            throw new NotFoundException("Employee is not there");
-        } 
-        else {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //Update Employee Info By Employee Id
@@ -92,12 +83,9 @@ public class EmployeeController extends BaseController {
         checkLogin();
 
         employeeVO.setId(id);
-        EmployeeVO updateEmployee = employeeService.updateEmployee(employeeVO);
-        if (updateEmployee == null) {
-            throw new NotFoundException("Employee is not there");
-        }
+        EmployeeVO updatedEmployee = employeeService.updateEmployee(employeeVO);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
     }
 
     //Send Mail API

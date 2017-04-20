@@ -14,9 +14,7 @@ public interface EmployeeDao {
 
     public EmployeeVO findEmployeeById (String id);
 
-    public EmployeeVO findEmployeeByEmail (String email);
+    public EmployeeVO save(EmployeeVO employeeVO);
 
-    public void save(EmployeeVO employeeVO);
-
-    public void delete(EmployeeVO employeeVO);
+    public void delete(String id);
 }

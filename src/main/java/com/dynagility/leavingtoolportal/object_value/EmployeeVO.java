@@ -28,16 +28,6 @@ public class EmployeeVO implements Serializable {
         this.joinDate = joinDate;
     }
 
-    public EmployeeVO(Employee employee) {
-        this.id = employee.getId();
-        this.name = employee.getName();
-        this.email = employee.getEmail();
-        this.balanceDay = employee.getBalanceDay();
-        this.deductedDay = employee.getDeductedDay();
-        this.positionId = employee.getPositionId();
-        this.joinDate = employee.getJoinDate();
-    }
-
     public String getId() {
         return id;
     }

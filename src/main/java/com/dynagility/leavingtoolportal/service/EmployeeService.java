@@ -28,8 +28,8 @@ public class EmployeeService {
         try {
             newEmployeeVO.setId(null);
             newEmployeeVO.setJoinDate(new Date());
-            employeeDao.save(newEmployeeVO);
-            return employeeDao.findEmployeeByEmail(newEmployeeVO.getEmail());
+
+            return employeeDao.save(newEmployeeVO);
         }
         catch (Exception e) {
             throw new InternalErrorException(e.getMessage());
@@ -37,33 +37,32 @@ public class EmployeeService {
     }
 
     public EmployeeVO getEmployeeById(String id) {
-        if (id == null) {
-            return null;
-        }
-
-        return employeeDao.findEmployeeById(id);
-    }
-
-    public boolean deleteEmployeeById(String id) {
         try {
-            EmployeeVO employeeVO = employeeDao.findEmployeeById(id);
-
-            if (employeeVO != null) {
-                employeeDao.delete(employeeVO);
-                return true;
-            }
+            EmployeeVO emVo = employeeDao.findEmployeeById(id);
+            return emVo;
         }
         catch (Exception e) {
             throw new NotFoundException("Employee is not there");
         }
- 
-        return false;
+    }
+
+    public void deleteEmployeeById(String id) {
+        try {
+            employeeDao.delete(id);
+        }
+        catch (Exception e) {
+            throw new NotFoundException("Employee is not there");
+        }
     }
 
     public EmployeeVO updateEmployee(EmployeeVO employeeVO) {
+        try {
+            EmployeeVO emVo = employeeDao.save(employeeVO);
+            return emVo;
+        }
+        catch (Exception e) {
+            throw new NotFoundException("Employee is not there");
+        }
 
-        employeeDao.save(employeeVO);
-
-        return employeeVO;
     }
 }

@@ -27,7 +27,7 @@ public  class EmployeeDaoImpl implements EmployeeDao {
 
         List<EmployeeVO> emVos = new ArrayList<EmployeeVO>();
         for(Employee e : employees) {
-            emVos.add(new EmployeeVO(e));
+            emVos.add(EmployeeMapper.updateEmployeeVO(e));
         }
         return emVos;
     }
@@ -41,44 +41,33 @@ public  class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public EmployeeVO findEmployeeById(String id) {
-        return new EmployeeVO(findById(id));
+        return EmployeeMapper.updateEmployeeVO(findById(id));
     }
 
     @Override
-    public EmployeeVO findEmployeeByEmail(String email) {
-        String hql = "select e from Employee e where email =:email";
-        Employee employee = null;
-        employee =  (Employee) entityManager.createQuery(hql).setParameter("email", email).getSingleResult();
-        return new EmployeeVO(employee);
-    }
+    public EmployeeVO save(EmployeeVO employeeVO) {
 
-    @Override
-    public void save(EmployeeVO employeeVO) {
+////////// Update Function //////////
+        if (employeeVO.getId() != null) {
+              Employee employee = findById(employeeVO.getId());
+              EmployeeMapper.updateEmployee(employeeVO, employee);
 
-        if (employeeVO.getId() != null){
-          Employee employee = findById(employeeVO.getId());
-          EmployeeMapper.updateEmployee(employeeVO, employee);
-
-          entityManager.merge(employee);
+              entityManager.merge(employee);
+              return EmployeeMapper.updateEmployeeVO(employee);
         }
-        else{
+
+////////// Add New Function //////////
+        else {
             Employee employee =  new Employee();
 
-            employee.setId(employeeVO.getId());
-            employee.setName(employeeVO.getName());
-            employee.setEmail(employeeVO.getEmail());
-            employee.setBalanceDay(employeeVO.getBalanceDay());
-            employee.setDeductedDay(employeeVO.getDeductedDay());
-            employee.setPositionId(employeeVO.getPositionId());
-            employee.setJoinDate(employeeVO.getJoinDate());
-            
-            entityManager.persist(employee);
+            entityManager.persist(EmployeeMapper.updateEmployee(employeeVO, employee));
+            return EmployeeMapper.updateEmployeeVO(employee);
         }
     }
 
     @Override
-    public void delete(EmployeeVO employeeVO) {
+    public void delete(String id) {
 
-        entityManager.remove(findById(employeeVO.getId()));
+        entityManager.remove(findById(id));
     }
 }
