@@ -18,5 +18,6 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 			Authentication authentication) throws IOException, ServletException {
 
 		clearAuthenticationAttributes(request);
+		response.setStatus(HttpServletResponse.SC_OK);
 	}
 }

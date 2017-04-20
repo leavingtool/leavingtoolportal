@@ -19,8 +19,7 @@ public class UserDetailServiceCustom implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Account account = accountRepository.findByUsername(username);
 		if (account != null) {
-			String a  = account.getRole().getName();
-			String role = "USER";
+			String role  = account.getRole().getName();
 		return new User(account.getUsername(), account.getPassword(), true, true, true, true,				
 					AuthorityUtils.createAuthorityList(role));
 		} else {

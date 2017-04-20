@@ -16,7 +16,7 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
 			throws IOException, ServletException {
-		response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid username or password");
+		response.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid username1 or password");
 		
 	}
 }

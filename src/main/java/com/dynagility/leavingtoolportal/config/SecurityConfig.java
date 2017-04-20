@@ -1,34 +1,30 @@
 package com.dynagility.leavingtoolportal.config;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import com.dynagility.leavingtoolportal.security.UserDetailServiceCustom;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	
 
 	@Autowired
-	private AuthenticationEntryPoint authenticationEntryPoint;
+	private BasicAuthenticationEntryPoint authenticationEntryPoint;
+	
+	@Autowired
+	private LogoutSuccessHandler logoutSuccessHandler;
 
 	@Autowired
 	private AuthenticationFailureHandler authenticationFailureHandler;
@@ -38,14 +34,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
     private UserDetailsService  userDetailsService;
-	
-	
-//	@Override
-//	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication()
-//				.withUser("admin").password("admin").roles("ADMIN", "USER")
-//				.and().withUser("user").password("user").roles("USER");
-//	}
 	
 	 @Override
 	 public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -59,13 +47,23 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/api/**").hasAuthority("USER")
 			.anyRequest().fullyAuthenticated()
 			.and()
-			.httpBasic();
-			//.exceptionHandling()
-			//.authenticationEntryPoint(authenticationEntryPoint);
+			.httpBasic()
+			.authenticationEntryPoint(authenticationEntryPoint)
+			;
 	       // .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('USER')")
 
-	        FormLoginConfigurer<HttpSecurity> formLogin = http.formLogin();
-	        formLogin.successHandler(authenticationSuccessHandler);
-	        formLogin.failureHandler(authenticationFailureHandler);
+	        http.formLogin().permitAll()
+	      //  .loginProcessingUrl("/login")
+	        .successHandler(authenticationSuccessHandler)
+	        .failureHandler(authenticationFailureHandler)
+	        ;
+//	        http.logout().permitAll()
+        //    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+//            .logoutSuccessHandler(logoutSuccessHandler)
+//            .and()
+//            .sessionManagement()
+//            .maximumSessions(1);
+//	        ;
+	   
 	    }
 }
