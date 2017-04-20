@@ -6,7 +6,7 @@ import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 public class EmployeeMapper {
 
     public static EmployeeVO updateEmployeeVO(Employee source) {
-    	EmployeeVO employeeVo = new EmployeeVO();
+        EmployeeVO employeeVo = new EmployeeVO();
         employeeVo.setId(source.getId() != null ? source.getId() : employeeVo.getId());
         employeeVo.setName(source.getName() != null ? source.getName() : employeeVo.getName());
         employeeVo.setEmail(source.getEmail() != null ? source.getEmail() : employeeVo.getEmail());

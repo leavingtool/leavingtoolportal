@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
@@ -41,8 +45,11 @@ public class EmployeeService {
             EmployeeVO emVo = employeeDao.findEmployeeById(id);
             return emVo;
         }
-        catch (Exception e) {
+        catch (EmptyResultDataAccessException e) {
             throw new NotFoundException("Employee is not there");
+        }
+        catch (Exception ex) {
+            throw new InternalErrorException(ex.getMessage());
         }
     }
 
@@ -50,8 +57,11 @@ public class EmployeeService {
         try {
             employeeDao.delete(id);
         }
-        catch (Exception e) {
+        catch (EmptyResultDataAccessException e) {
             throw new NotFoundException("Employee is not there");
+        }
+        catch (Exception ex) {
+            throw new InternalErrorException(ex.getMessage());
         }
     }
 
@@ -60,9 +70,11 @@ public class EmployeeService {
             EmployeeVO emVo = employeeDao.save(employeeVO);
             return emVo;
         }
-        catch (Exception e) {
+        catch (EmptyResultDataAccessException e) {
             throw new NotFoundException("Employee is not there");
         }
-
+        catch (Exception ex) {
+            throw new InternalErrorException(ex.getMessage());
+        }
     }
 }
