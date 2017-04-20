@@ -48,14 +48,14 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().fullyAuthenticated()
 			.and()
 			.httpBasic()
-			.authenticationEntryPoint(authenticationEntryPoint)
+	//		.authenticationEntryPoint(authenticationEntryPoint)
 			;
 	       // .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('USER')")
 
 	        http.formLogin().permitAll()
 	      //  .loginProcessingUrl("/login")
-	        .successHandler(authenticationSuccessHandler)
-	        .failureHandler(authenticationFailureHandler)
+//	        .successHandler(authenticationSuccessHandler)
+//	        .failureHandler(authenticationFailureHandler)
 	        ;
 //	        http.logout().permitAll()
         //    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
