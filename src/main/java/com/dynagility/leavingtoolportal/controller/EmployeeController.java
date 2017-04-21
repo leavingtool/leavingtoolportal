@@ -42,7 +42,6 @@ public class EmployeeController extends BaseController {
     public static final String UPDATE_EMPLOYEE_BY_ID = "/{id}";
     public static final String DELETE_EMPLOYEE_BY_ID = "/{id}";
 
-    
     //Add New Employee API
     @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
     public ResponseEntity<?> addNewEmployee(@RequestBody EmployeeVO newEmployeeVO) {

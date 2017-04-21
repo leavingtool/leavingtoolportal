@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.dynagility.leavingtoolportal.model.Employee;
+import com.dynagility.leavingtoolportal.model.Position;
 
 public class EmployeeVO implements Serializable {
     private String id;
@@ -11,20 +12,20 @@ public class EmployeeVO implements Serializable {
     private String email;
     private Integer balanceDay;
     private Integer deductedDay;
-    private String positionId;
+    private Position position;
     private Date joinDate;
 
     public EmployeeVO() {
     }
 
     public EmployeeVO(String id, String name, String email, Integer balanceDay,
-            Integer deductedDay, String positionId, Date joinDate) {
+            Integer deductedDay, Position position, Date joinDate) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.balanceDay = balanceDay;
         this.deductedDay = deductedDay;
-        this.positionId = positionId;
+        this.position = position;
         this.joinDate = joinDate;
     }
 
@@ -68,12 +69,12 @@ public class EmployeeVO implements Serializable {
         this.deductedDay = deductedDay;
     }
 
-    public String getPositionId() {
-        return positionId;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setPositionId(String positionId) {
-        this.positionId = positionId;
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public Date getJoinDate() {
