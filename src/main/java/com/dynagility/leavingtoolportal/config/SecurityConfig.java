@@ -45,25 +45,22 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 			
 	        http.csrf().disable().authorizeRequests()
 	        .antMatchers("/api/**").hasAuthority("USER")
+	        
 			.anyRequest().fullyAuthenticated()
 			.and()
 			.httpBasic()
-	//		.authenticationEntryPoint(authenticationEntryPoint)
+			.authenticationEntryPoint(authenticationEntryPoint)
 			;
-	       // .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('USER')")
-
 	        http.formLogin().permitAll()
-	      //  .loginProcessingUrl("/login")
-//	        .successHandler(authenticationSuccessHandler)
-//	        .failureHandler(authenticationFailureHandler)
+	        .loginProcessingUrl("/login")
+	        .successHandler(authenticationSuccessHandler)
+	        .failureHandler(authenticationFailureHandler)
 	        ;
-//	        http.logout().permitAll()
-        //    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-//            .logoutSuccessHandler(logoutSuccessHandler)
-//            .and()
-//            .sessionManagement()
-//            .maximumSessions(1);
-//	        ;
-	   
+	        http.logout().permitAll()
+          //  .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+            .logoutSuccessHandler(logoutSuccessHandler)
+
+	        ;
+	        
 	    }
 }
