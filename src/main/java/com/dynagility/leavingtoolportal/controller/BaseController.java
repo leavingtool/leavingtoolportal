@@ -15,8 +15,8 @@ import com.dynagility.leavingtoolportal.security.SecurityUtil;
 
 @RestController
 public class BaseController {
-    @Autowired
-    protected SecurityUtil securityUtil;
+   
+    protected SecurityUtil securityUtil = new SecurityUtil();
 
     public void checkLogin() {
         if (!securityUtil.checkAuthentication()) {
