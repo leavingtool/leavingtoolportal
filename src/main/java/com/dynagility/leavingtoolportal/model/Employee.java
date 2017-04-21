@@ -38,7 +38,7 @@ public class Employee {
     private Integer deductedDay;
 
     @Column(name = "position_id", nullable = true)
-    private Position position;
+    private String positionId;
 
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -88,12 +88,12 @@ public class Employee {
         this.deductedDay = deductedDay;
     }
 
-    public Position getPosition() {
-        return position;
+    public String getPositionId() {
+        return positionId;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setPositionId(String positionId) {
+        this.positionId = positionId;
     }
 
     public Date getJoinDate() {

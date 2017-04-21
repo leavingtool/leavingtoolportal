@@ -12,7 +12,7 @@ public class EmployeeMapper {
         employeeVo.setEmail(source.getEmail() != null ? source.getEmail() : employeeVo.getEmail());
         employeeVo.setBalanceDay(source.getBalanceDay() != null ? source.getBalanceDay() : employeeVo.getBalanceDay());
         employeeVo.setDeductedDay(source.getDeductedDay() != null ? source.getDeductedDay() : employeeVo.getDeductedDay());
-        employeeVo.setPosition(source.getPosition() != null ? source.getPosition() : employeeVo.getPosition());
+        employeeVo.setPositionId(source.getPositionId() != null ? source.getPositionId() : employeeVo.getPositionId());
         employeeVo.setJoinDate(source.getJoinDate() != null ? source.getJoinDate() : employeeVo.getJoinDate());
 
         return employeeVo;
@@ -23,7 +23,7 @@ public class EmployeeMapper {
         employee.setEmail(source.getEmail() != null ? source.getEmail() : employee.getEmail());
         employee.setBalanceDay(source.getBalanceDay() != null ? source.getBalanceDay() : employee.getBalanceDay());
         employee.setDeductedDay(source.getDeductedDay() != null ? source.getDeductedDay() : employee.getDeductedDay());
-        employee.setPosition(source.getPosition() != null ? source.getPosition() : employee.getPosition());
+        employee.setPositionId(source.getPositionId() != null ? source.getPositionId() : employee.getPositionId());
         employee.setJoinDate(source.getJoinDate() != null ? source.getJoinDate() : employee.getJoinDate());
 
         return employee;
