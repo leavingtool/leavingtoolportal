@@ -2,10 +2,16 @@ package com.dynagility.leavingtoolportal.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 import com.dynagility.leavingtoolportal.model.Employee;
 import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
+import com.dynagility.leavingtoolportal.repository.AccountRepository;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
 import com.dynagility.leavingtoolportal.service.MailService;
 
@@ -23,6 +30,7 @@ public class EmployeeController extends BaseController {
 
     @Autowired
     private EmployeeService employeeService;
+   
     @Autowired 
     private MailService mailService;
 
