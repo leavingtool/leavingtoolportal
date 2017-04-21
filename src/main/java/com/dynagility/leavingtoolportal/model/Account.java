@@ -55,6 +55,20 @@ public class Account {
         return password;
     }
 
+    public Account() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+    public Account(String id, String username, String password, Employee employee, Role role) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.employee = employee;
+        this.role = role;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -73,5 +87,10 @@ public class Account {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Account(String username, String password){
+        this.username = username;
+        this.password = password;
     }
 }

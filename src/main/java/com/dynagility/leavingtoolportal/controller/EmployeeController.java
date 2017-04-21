@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 import com.dynagility.leavingtoolportal.model.Employee;
+import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
 import com.dynagility.leavingtoolportal.service.MailService;
 
@@ -35,13 +36,13 @@ public class EmployeeController extends BaseController {
 
     //Add New Employee API
     @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
-    public ResponseEntity<?> addNewEmployee(@RequestBody Employee newEmployee) {
+    public ResponseEntity<?> addNewEmployee(@RequestBody EmployeeVO newEmployeeVO) {
 
         checkLogin();
 
-        Employee employee = employeeService.addEmployee(newEmployee);
+        EmployeeVO employeeVO = employeeService.addEmployee(newEmployeeVO);
 
-        return new ResponseEntity<>(employee, HttpStatus.CREATED);
+        return new ResponseEntity<>(employeeVO, HttpStatus.CREATED);
     }
 
     //Get All Employee API
@@ -59,13 +60,9 @@ public class EmployeeController extends BaseController {
 
         checkLogin();
 
-        Employee employeeDetail = employeeService.getEmployeeById(id);
+        EmployeeVO employeeDetail = employeeService.getEmployeeById(id);
 
-        if (employeeDetail == null) {
-            throw new NotFoundException("Employee is not there");
-        }
-
-        return new ResponseEntity<Employee>(employeeDetail, HttpStatus.OK);
+        return new ResponseEntity<EmployeeVO>(employeeDetail, HttpStatus.OK);
     }
 
     //Delete Employee By Employee Id
@@ -74,29 +71,21 @@ public class EmployeeController extends BaseController {
 
         checkLogin();
 
-        boolean employee = employeeService.deleteEmployeeById(id);
+        employeeService.deleteEmployeeById(id);
 
-        if (employee == false) {
-            throw new NotFoundException("Employee is not there");
-        } 
-        else {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //Update Employee Info By Employee Id
     @RequestMapping(value = BASE_URL_API + UPDATE_EMPLOYEE_BY_ID, method=RequestMethod.PUT)
-    public ResponseEntity<?> updateEmployee(@PathVariable("id") String id, @RequestBody Employee employee) {
+    public ResponseEntity<?> updateEmployee(@PathVariable("id") String id, @RequestBody EmployeeVO employeeVO) {
 
         checkLogin();
 
-        employee.setId(id);
-        Employee updateEmployee = employeeService.updateEmployee(employee);
-        if (updateEmployee == null) {
-            throw new NotFoundException("Employee is not there");
-        }
+        employeeVO.setId(id);
+        EmployeeVO updatedEmployee = employeeService.updateEmployee(employeeVO);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
     }
 
     //Send Mail API

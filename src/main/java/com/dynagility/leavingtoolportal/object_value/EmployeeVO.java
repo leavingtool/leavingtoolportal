@@ -1,51 +1,31 @@
-package com.dynagility.leavingtoolportal.model;
+package com.dynagility.leavingtoolportal.object_value;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import com.dynagility.leavingtoolportal.model.Employee;
 
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.GenericGenerator;
-
-import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-@Entity
-@Table(name = "employee")
-@DynamicUpdate
-public class Employee {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+public class EmployeeVO implements Serializable {
     private String id;
-
-    @Column(name = "name", nullable = true)
     private String name;
-
-    @Column(name = "email", unique = true, nullable = true)
     private String email;
-
-    @Column(name = "balance_day", nullable = true)
     private Integer balanceDay;
-
-    @Column(name = "deducted_day", nullable = true)
     private Integer deductedDay;
-
-    @Column(name = "position_id", nullable = true)
     private String positionId;
-
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "join_date", nullable = true)
     private Date joinDate;
 
-    public Employee() {
+    public EmployeeVO() {
+    }
+
+    public EmployeeVO(String id, String name, String email, Integer balanceDay,
+            Integer deductedDay, String positionId, Date joinDate) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.balanceDay = balanceDay;
+        this.deductedDay = deductedDay;
+        this.positionId = positionId;
+        this.joinDate = joinDate;
     }
 
     public String getId() {
@@ -103,5 +83,4 @@ public class Employee {
     public void setJoinDate(Date joinDate) {
         this.joinDate = joinDate;
     }
-    
 }

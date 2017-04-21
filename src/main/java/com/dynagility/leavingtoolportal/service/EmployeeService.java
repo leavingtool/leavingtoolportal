@@ -1,68 +1,80 @@
 package com.dynagility.leavingtoolportal.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
 import com.dynagility.leavingtoolportal.exceptions.InternalErrorException;
+import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.repository.EmployeeRepository;
+import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 
 @Service
 public class EmployeeService {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeDao employeeDao;
 
-    public List<Employee> getAll() {
-        return (List<Employee>) employeeRepository.findAll();
+    public List<EmployeeVO> getAll() {
+        List<EmployeeVO> employeeVOs= employeeDao.findAll();
+
+        return employeeVOs;
     }
-   
-    public Employee addEmployee(Employee newEmployee) {
+
+    public EmployeeVO addEmployee(EmployeeVO newEmployeeVO) {
         try {
-            newEmployee.setId(null);
-            newEmployee.setJoinDate(new Date());
-            return employeeRepository.save(newEmployee);
+            newEmployeeVO.setId(null);
+            newEmployeeVO.setJoinDate(new Date());
+
+            return employeeDao.save(newEmployeeVO);
         }
         catch (Exception e) {
             throw new InternalErrorException(e.getMessage());
         }
     }
 
-    public Employee getEmployeeById(String id) {
-
-        if (id == null) {
-            return null;
+    public EmployeeVO getEmployeeById(String id) {
+        try {
+            EmployeeVO emVo = employeeDao.findEmployeeById(id);
+            return emVo;
         }
-
-        return employeeRepository.findOne(id);
+        catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("Employee is not there");
+        }
+        catch (Exception ex) {
+            throw new InternalErrorException(ex.getMessage());
+        }
     }
 
-    public boolean deleteEmployeeById(String id) {
-        Employee employee = employeeRepository.findOne(id);
-        if (employee == null) {
-            return false;
+    public void deleteEmployeeById(String id) {
+        try {
+            employeeDao.delete(id);
         }
-
-        if (employee != null) {
-            employeeRepository.delete(employee);
-            return true;
+        catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("Employee is not there");
         }
-
-        return false;
+        catch (Exception ex) {
+            throw new InternalErrorException(ex.getMessage());
+        }
     }
 
-    public Employee updateEmployee(Employee employee) {
-        Employee updateEmployee = employeeRepository.findOne(employee.getId());
-
-        if (updateEmployee == null) {
-            return null;
+    public EmployeeVO updateEmployee(EmployeeVO employeeVO) {
+        try {
+            EmployeeVO emVo = employeeDao.save(employeeVO);
+            return emVo;
         }
-
-        updateEmployee.update(employee);
-        employeeRepository.save(updateEmployee);
-
-        return updateEmployee;
+        catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("Employee is not there");
+        }
+        catch (Exception ex) {
+            throw new InternalErrorException(ex.getMessage());
+        }
     }
 }

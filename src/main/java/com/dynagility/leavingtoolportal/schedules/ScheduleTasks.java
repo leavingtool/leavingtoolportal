@@ -1,25 +1,25 @@
 package com.dynagility.leavingtoolportal.schedules;
 
-import java.util.Date;
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.repository.EmployeeRepository;
+import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
+import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 
 @Component
 public class ScheduleTasks {
     @Autowired
-    EmployeeRepository employeeRepository;
+    EmployeeDao employeeDao;
     @Scheduled(cron = "0 0 0 15 * ?")
     public void scheduleTasks() {
-        List<Employee> employees = employeeRepository.findAll();
-        for(Employee e : employees ) {
+        List<EmployeeVO> employeeVOs = employeeDao.findAll();
+        for(EmployeeVO e : employeeVOs) {
             e.setBalanceDay(e.getBalanceDay()+1);
-            employeeRepository.save(e);
+            employeeDao.save(e);
         }
     }
 }
