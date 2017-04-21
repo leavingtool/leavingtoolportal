@@ -1,6 +1,7 @@
 package com.dynagility.leavingtoolportal.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
-import com.dynagility.leavingtoolportal.model.Employee;
 import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
-import com.dynagility.leavingtoolportal.repository.AccountRepository;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
 import com.dynagility.leavingtoolportal.service.MailService;
 
@@ -41,8 +39,24 @@ public class EmployeeController extends BaseController {
     public static final String GET_EMPLOYEE_DETAIL_BY_ID_API = "/{id}";
     public static final String UPDATE_EMPLOYEE_BY_ID = "/{id}";
     public static final String DELETE_EMPLOYEE_BY_ID = "/{id}";
-
+    public static final String LOGIN = "/login"; 
+    public static final String LOGOUT = "/logout"; 
     
+    @RequestMapping(value = BASE_URL_API + LOGIN, method=RequestMethod.POST)
+    public ResponseEntity<?> login() {
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @RequestMapping(value= BASE_URL_API + LOGOUT, method = RequestMethod.GET)
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){    
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "Logout success.";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
+    }
+
     //Add New Employee API
     @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
     public ResponseEntity<?> addNewEmployee(@RequestBody EmployeeVO newEmployeeVO) {
@@ -100,7 +114,6 @@ public class EmployeeController extends BaseController {
     //Send Mail API
     @RequestMapping (value = SEND_MAIL, method = RequestMethod.GET)
     public ResponseEntity<?> sendMail() throws IOException{
-        mailService.sendMail();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
