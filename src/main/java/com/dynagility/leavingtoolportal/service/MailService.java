@@ -24,7 +24,7 @@ public class MailService {
             prop.load(input);
             this.simpleMailmessage = new SimpleMailMessage();
             this.simpleMailmessage.setFrom(prop.getProperty("spring.mail.smtp.mail.from"));
-            this.simpleMailmessage.setTo("leaving.tool@yandex.com");
+            this.simpleMailmessage.setTo("hunganhuit@gmail.com.vn");
             SimpleMailMessage msg = new SimpleMailMessage(this.simpleMailmessage);
             msg.setText("This Email Is Sent From Leaving Tool API ^^ ");
             msg.setSubject("Test Leaving Tool");

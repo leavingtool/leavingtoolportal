@@ -16,7 +16,6 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
