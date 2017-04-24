@@ -18,7 +18,7 @@ public class AccountDaoImpl implements AccountDao{
 	@Override
 	public Account findByUsername(String username) {
 		
-		return (Account) entityManager.createQuery("select ac from Account ac where ac.username =:username").setParameter("username", username).getSingleResult();
+		return (Account)entityManager.createQuery("select ac from Account ac where ac.username =:username").setParameter("username", username).getSingleResult();
 	}
 
 }
