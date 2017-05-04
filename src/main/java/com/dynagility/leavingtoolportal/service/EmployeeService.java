@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.dynagility.leavingtoolportal.Dao.AccountDao;
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
+import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.dynagility.leavingtoolportal.exceptions.InternalErrorException;
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 import com.dynagility.leavingtoolportal.model.Account;
 import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 
 @Service
 public class EmployeeService {
@@ -25,7 +25,6 @@ public class EmployeeService {
     public List<EmployeeVO> getAll() {
         List<Employee> employees= (List<Employee>) employeeRepository.findAll();
         List<EmployeeVO> employeeVOs = new  ArrayList<EmployeeVO>();
-
         for(Employee e : employees) {
             EmployeeVO eVO = new EmployeeVO(e);
             eVO.setId(e.getId());
@@ -86,6 +85,7 @@ public class EmployeeService {
     public boolean checkLogin(Account account) {
         try {
         	Account checkAccount = accountRepository.findById(account.getUsername());
+        	
         	boolean flags = checkAccount.getPassword().equalsIgnoreCase(account.getPassword());
         	if (flags == true) {
                 return true;

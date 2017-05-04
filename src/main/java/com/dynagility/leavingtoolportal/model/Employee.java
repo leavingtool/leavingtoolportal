@@ -46,11 +46,13 @@ public class Employee {
 
     //Update Field In Model
     public void update(Employee source) {
+    	this.setId(source.getId() != null ? source.getId() : this.getId());
         this.setName(source.getName() != null ? source.getName() : this.getName());
         this.setEmail(source.getEmail() != null ? source.getEmail() : this.getEmail());
         this.setBalanceDay(source.getBalanceDay() != null ? source.getBalanceDay() : this.getBalanceDay());
         this.setDeductedDay(source.getDeductedDay() != null ? source.getDeductedDay() : this.getDeductedDay());
         this.setPositionId(source.getPositionId() != null ? source.getPositionId() : this.getPositionId());
+        this.setJoinDate(source.getJoinDate() != null ? source.getJoinDate() : this.getJoinDate());
     }
 
     public String getId() {

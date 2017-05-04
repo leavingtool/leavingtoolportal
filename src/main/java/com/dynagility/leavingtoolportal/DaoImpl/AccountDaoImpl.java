@@ -25,5 +25,4 @@ public class AccountDaoImpl implements AccountDao {
 	        account =  (Account) entityManager.createQuery(hql).setParameter("username", username).getSingleResult();
 	        return account;
 	    }
-
 }

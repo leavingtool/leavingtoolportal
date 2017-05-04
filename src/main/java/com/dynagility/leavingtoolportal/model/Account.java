@@ -27,11 +27,11 @@ public class Account {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
@@ -68,7 +68,7 @@ public class Account {
         this.employee = employee;
         this.role = role;
     }
-
+    
     public void setPassword(String password) {
         this.password = password;
     }
