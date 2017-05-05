@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 import com.dynagility.leavingtoolportal.model.Account;
 import com.dynagility.leavingtoolportal.model.Employee;
+import com.dynagility.leavingtoolportal.service.EmployeeDetailVOService;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
 import com.dynagility.leavingtoolportal.service.MailService;
 
@@ -23,6 +25,8 @@ public class EmployeeController extends BaseController {
 
     @Autowired
     private EmployeeService employeeService;
+    @Autowired 
+    private EmployeeDetailVOService employeeDetailService;
     @Autowired 
     private MailService mailService;
 
@@ -109,16 +113,18 @@ public class EmployeeController extends BaseController {
     }
 
   //Login Test
+    @CrossOrigin
     @RequestMapping(value = CHECK_ACCOUNT, method=RequestMethod.POST)
     public ResponseEntity<?> loginTest(@RequestBody Account account) {
 
-        boolean account1 = employeeService.checkLogin(account);
-
-        if (account1 == false) {
+        boolean _checkAcc = employeeService.checkLogin(account);
+        
+        if (_checkAcc == false) {
             throw new NotFoundException("Cannot Login");
         } 
         else {
-            return new ResponseEntity<>(HttpStatus.OK);
+        	
+            return new ResponseEntity<>(employeeDetailService.getUserDetailByAccountName(account.getUsername()), HttpStatus.OK);
         }
     }
 }
