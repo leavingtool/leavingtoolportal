@@ -19,10 +19,25 @@ public class AccountDaoImpl implements AccountDao {
 	    private EntityManager entityManager;
 	    @SuppressWarnings("unchecked")
 	    @Override
-	    public Account findById(String username) {
+	    public Account findByUserName(String username) {
 	        String hql = "select ac from Account ac where username =:username";
 	        Account account = null;
 	        account =  (Account) entityManager.createQuery(hql).setParameter("username", username).getSingleResult();
 	        return account;
 	    }
+	    
+	    public Account findById(String id) {
+	        String hql = "select ac from Account ac where id =:id";
+	        Account account = null;
+	        account =  (Account) entityManager.createQuery(hql).setParameter("id", id).getSingleResult();
+	        return account;
+	    }
+
+		@Override
+		public Account findByEmployeeId(String employeeId) {
+			String hql = "select ac from Account ac where employee_id =:employee_id";
+	        Account account = null;
+	        account =  (Account) entityManager.createQuery(hql).setParameter("employee_id", employeeId).getSingleResult();
+	        return account;
+		}
 }

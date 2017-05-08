@@ -1,6 +1,5 @@
 package com.dynagility.leavingtoolportal.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,11 +20,11 @@ public class EmployeeProject {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
@@ -51,5 +50,12 @@ public class EmployeeProject {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+    
+  //Update Field In Model
+    public void update(EmployeeProject emp_pro) {
+    	this.setId(emp_pro.getId() != null ? emp_pro.getId() : this.getId());
+        this.setEmployee(emp_pro.getEmployee() != null ? emp_pro.getEmployee() : this.getEmployee());
+        this.setProject(emp_pro.getProject() != null ? emp_pro.getProject() : this.getProject());
     }
 }

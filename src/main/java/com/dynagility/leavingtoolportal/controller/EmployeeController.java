@@ -1,6 +1,7 @@
 package com.dynagility.leavingtoolportal.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -11,14 +12,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dynagility.leavingtoolportal.Dao.AccountDao;
+import com.dynagility.leavingtoolportal.VO.EmployeeDetailVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeProjectVO;
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 import com.dynagility.leavingtoolportal.model.Account;
 import com.dynagility.leavingtoolportal.model.Employee;
+import com.dynagility.leavingtoolportal.model.EmployeeProject;
 import com.dynagility.leavingtoolportal.service.EmployeeDetailVOService;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
 import com.dynagility.leavingtoolportal.service.MailService;
+import com.dynagility.leavingtoolportal.service.ProjectService;
 
 @RestController
 public class EmployeeController extends BaseController {
@@ -28,19 +35,26 @@ public class EmployeeController extends BaseController {
     @Autowired 
     private EmployeeDetailVOService employeeDetailService;
     @Autowired 
+    private AccountDao accountRepository;
+    @Autowired
+    private ProjectService projectService;
+    @Autowired 
     private MailService mailService;
 
     public static final String SEND_MAIL = "/api/sendmail";
 
-    public static final String BASE_URL_API = "/api/employee";
+	public static final String BASE_URL_API = "/api/employee";
     public static final String GET_ALL_EMPLOYEE_URL_API = "/api/employees";
     public static final String GET_EMPLOYEE_DETAIL_BY_ID_API = "/{id}";
     public static final String UPDATE_EMPLOYEE_BY_ID = "/{id}";
     public static final String DELETE_EMPLOYEE_BY_ID = "/{id}";
     public static final String CHECK_ACCOUNT = "/api/account";
+    public static final String USER_DETAIL = "/api/employee/detail";
+    public static final String EMPLOYEE_PROJECT = "/api/employeeproject";
+
 
     //Add New Employee API
-    @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
+	@RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
     public ResponseEntity<?> addNewEmployee(@RequestBody Employee newEmployee) {
 
         checkLogin();
@@ -60,9 +74,10 @@ public class EmployeeController extends BaseController {
     }
 
     //Get Employee Detail By Employee Id
-    @RequestMapping(value = BASE_URL_API + GET_EMPLOYEE_DETAIL_BY_ID_API, method = RequestMethod.GET)
-    public ResponseEntity<?> getEmployeeDetail(@PathVariable("id") String id) {
-
+    @RequestMapping(value = BASE_URL_API, method = RequestMethod.GET)
+    public ResponseEntity<?> getEmployeeDetail(@RequestParam("id") String id) {
+    	
+    	System.out.println(id);
         checkLogin();
 
         Employee employeeDetail = employeeService.getEmployeeById(id);
@@ -123,8 +138,34 @@ public class EmployeeController extends BaseController {
             throw new NotFoundException("Cannot Login");
         } 
         else {
+        	Account _account = accountRepository.findByUserName(account.getUsername());
         	
-            return new ResponseEntity<>(employeeDetailService.getUserDetailByAccountName(account.getUsername()), HttpStatus.OK);
+        	String res = "{\n \"id\":\""+_account.getEmployee().getId()+"\",\n \"role_id\":\""+_account.getRole().getId()+"\", \n \"status\":\"true\" \n}";
+      
+            return new ResponseEntity<>(res, HttpStatus.OK);
+           
         }
+    }
+    @CrossOrigin
+    @RequestMapping(value = USER_DETAIL, method=RequestMethod.GET)
+    public ResponseEntity<?> getUserDetail(@RequestParam("id") String id) {
+
+    	checkLogin();
+        EmployeeDetailVO emp = employeeDetailService.getUserDetailEmployeeId(id);
+        return new ResponseEntity<>(emp, HttpStatus.OK);
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = EMPLOYEE_PROJECT, method=RequestMethod.GET)
+    public ResponseEntity<?> getEmployeeProjectById(@RequestParam("id") String id) {
+
+        List<EmployeeProjectVO> emp = projectService.getEmp_Pro_ByEmployeeId(id);
+        
+//        System.out.println(emp.getId());
+//        System.out.println(emp.getEmployee().getEmail());
+//        System.out.println("dfdsfdsfdsfds");
+//        System.out.println(emp.getProject().getId());
+//        System.out.println(emp.getProject().getName());
+        return new ResponseEntity<>(emp, HttpStatus.OK);
     }
 }

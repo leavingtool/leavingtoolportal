@@ -7,5 +7,7 @@ import com.dynagility.leavingtoolportal.model.Account;
 @Component
 public interface AccountDao {
 
-    public Account findById (String username);
+    public Account findByUserName (String username);
+    public Account findById (String id);
+    public Account findByEmployeeId (String employeeId);
 }

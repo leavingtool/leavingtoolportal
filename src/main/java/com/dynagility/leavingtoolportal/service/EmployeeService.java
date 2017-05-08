@@ -84,7 +84,7 @@ public class EmployeeService {
 
     public boolean checkLogin(Account account) {
         try {
-        	Account checkAccount = accountRepository.findById(account.getUsername());
+        	Account checkAccount = accountRepository.findByUserName(account.getUsername());
         	
         	boolean flags = checkAccount.getPassword().equalsIgnoreCase(account.getPassword());
         	if (flags == true) {
