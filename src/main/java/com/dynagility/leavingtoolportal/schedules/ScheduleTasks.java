@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
-import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 
 @Component
 public class ScheduleTasks {
@@ -18,7 +18,7 @@ public class ScheduleTasks {
     public void scheduleTasks() {
         List<EmployeeVO> employeeVOs = employeeDao.findAll();
         for(EmployeeVO e : employeeVOs) {
-            e.setBalanceDay(e.getBalanceDay()+1);
+            e.setBalance_day(e.getBalance_day()+1);
             employeeDao.save(e);
         }
     }

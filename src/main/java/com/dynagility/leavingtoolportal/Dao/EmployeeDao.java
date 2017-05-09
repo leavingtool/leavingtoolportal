@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.dynagility.leavingtoolportal.VO.AccountVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 
 @Component
 public interface EmployeeDao {
@@ -13,6 +14,8 @@ public interface EmployeeDao {
     public List<EmployeeVO> findAll();
 
     public EmployeeVO findEmployeeById (String id);
+    
+    public EmployeeVO findEmployeeByEmployeeId (String employee_Id);
 
     public EmployeeVO save(EmployeeVO employeeVO);
 

@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
+import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.dynagility.leavingtoolportal.exceptions.InternalErrorException;
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
-import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
 
 @Service
 public class EmployeeService {
@@ -31,7 +27,7 @@ public class EmployeeService {
     public EmployeeVO addEmployee(EmployeeVO newEmployeeVO) {
         try {
             newEmployeeVO.setId(null);
-            newEmployeeVO.setJoinDate(new Date());
+            newEmployeeVO.setJoin_date(new Date());
 
             return employeeDao.save(newEmployeeVO);
         }
@@ -77,4 +73,17 @@ public class EmployeeService {
             throw new InternalErrorException(ex.getMessage());
         }
     }
+	
+	public EmployeeVO getEmployeeDetailById(String id){
+		try {
+			EmployeeVO emVo = employeeDao.findEmployeeByEmployeeId(id);
+            return emVo;
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("Employee is not there");
+        }
+        catch (Exception ex) {
+            throw new InternalErrorException(ex.getMessage());
+        }
+	}
 }
