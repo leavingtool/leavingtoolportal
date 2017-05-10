@@ -1,6 +1,7 @@
 package com.dynagility.leavingtoolportal.DaoImpl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -63,5 +64,21 @@ public class LeaveDetailDaoImpl implements LeaveDetailDao {
     	}
 		return leaveDetailVOs;
 	}
+
+	@Override
+	public List<LeaveDetailVO> getEmployeeLeaveDetailVOByReasonAndYear(String employee_id, String reason_id, int year) {
+		String hql = "select ld from LeaveDetail ld where employee_id =:employee_id and reason_id =:reason_id and YEAR(leave_to) =:year";
+		List<LeaveDetailVO> leaveDetailVOs = new ArrayList<>();
+		List<LeaveDetail>leaveDetails = null;
+		leaveDetails = (List<LeaveDetail>)entityManager.createQuery(hql).setParameter("employee_id", employee_id).setParameter("reason_id", reason_id).setParameter("year", year).getResultList();
+		for (LeaveDetail e : leaveDetails){
+			LeaveDetailVO leaveVO = LeaveDetailMapper.updateLeaveDetailVO(e);
+			leaveDetailVOs.add(leaveVO);
+		}
+				
+		return leaveDetailVOs;
+	}
+
+	
 
 }

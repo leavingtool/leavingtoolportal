@@ -124,13 +124,5 @@ public class EmployeeController extends BaseController {
         return new ResponseEntity<>(emp, HttpStatus.OK);
     }
     
-   //get User detail API
-    @CrossOrigin
-    @RequestMapping(value = LEAVE_DETAIL, method=RequestMethod.GET)
-    public ResponseEntity<?> getLeaveDetail(@RequestParam("id") String id) {
-
-    	checkLogin();
-        Object obj = leaveDetailService.getLeaveDetailById(id);
-        return new ResponseEntity<>(obj, HttpStatus.OK);
-    }
+    
 }

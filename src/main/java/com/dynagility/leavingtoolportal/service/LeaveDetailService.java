@@ -29,5 +29,19 @@ public class LeaveDetailService {
             throw new InternalErrorException(ex.getMessage());
         }
 	}
+	
+	public List<LeaveDetailVO> getEmployeeLeaveDetailByReasonAndYear(String employee_id, String reason, int year){
+		try {
+			List<LeaveDetailVO> leaveDetailVo = null;
+			leaveDetailVo = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employee_id, reason, year);
+            return leaveDetailVo;
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("LeaveDetail is not there");
+        }
+        catch (Exception ex) {
+            throw new InternalErrorException(ex.getMessage());
+        }
+	}
 
 }
