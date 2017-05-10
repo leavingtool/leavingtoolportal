@@ -14,7 +14,8 @@ public class LeaveDetailMapper {
 		leaveDetailVO.setLeave_to(leavDetail.getLeaveTo() != null ? leavDetail.getLeaveTo() : leaveDetailVO.getLeave_to());
 		leaveDetailVO.setReason(leavDetail.getReason() != null ? reasonMapper.updateReasonVO(leavDetail.getReason()) : leaveDetailVO.getReason());
 		leaveDetailVO.setStatus(leavDetail.getStatus() != null ? statusMapper.updateStatusVO(leavDetail.getStatus()) : leaveDetailVO.getStatus());
-        return leaveDetailVO;
+		leaveDetailVO.setDeducted_days(leavDetail.getDeducted_days() != null ? leavDetail.getDeducted_days() : leaveDetailVO.getDeducted_days());
+		return leaveDetailVO;
     }
 
 }
