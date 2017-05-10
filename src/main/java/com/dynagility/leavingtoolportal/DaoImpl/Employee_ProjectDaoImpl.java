@@ -16,7 +16,7 @@ import com.dynagility.leavingtoolportal.model.mapper.Employee_ProjectMapper;
 
 @Repository
 @Transactional
-public class Employee_ProjectDaoEmpl implements Employee_ProjectDao {
+public class Employee_ProjectDaoImpl implements Employee_ProjectDao {
 
 	@PersistenceContext 
     private EntityManager entityManager;

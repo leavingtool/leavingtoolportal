@@ -18,6 +18,7 @@ import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.dynagility.leavingtoolportal.VO.LoginVO;
 import com.dynagility.leavingtoolportal.model.Account;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
+import com.dynagility.leavingtoolportal.service.LeaveDetailService;
 import com.dynagility.leavingtoolportal.service.LoginService;
 import com.dynagility.leavingtoolportal.service.MailService;
 
@@ -28,6 +29,8 @@ public class EmployeeController extends BaseController {
     private EmployeeService employeeService;
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private LeaveDetailService leaveDetailService;
     @Autowired 
     private MailService mailService;
 
@@ -40,6 +43,7 @@ public class EmployeeController extends BaseController {
     public static final String DELETE_EMPLOYEE_BY_ID = "/{id}";
     public static final String CHECK_ACCOUNT = "/api/account";
     public static final String USER_DETAIL = "/api/employee/detail";
+    public static final String LEAVE_DETAIL = "/api/leavedetail";
 
     //Add New Employee API
     @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
@@ -110,6 +114,7 @@ public class EmployeeController extends BaseController {
         return new ResponseEntity<>(_checkAcc, HttpStatus.OK);
     }
     
+    //get User detail API
     @CrossOrigin
     @RequestMapping(value = USER_DETAIL, method=RequestMethod.GET)
     public ResponseEntity<?> getUserDetail(@RequestParam("id") String id) {
@@ -117,5 +122,15 @@ public class EmployeeController extends BaseController {
     	checkLogin();
         EmployeeVO emp = employeeService.getEmployeeDetailById(id);
         return new ResponseEntity<>(emp, HttpStatus.OK);
+    }
+    
+   //get User detail API
+    @CrossOrigin
+    @RequestMapping(value = LEAVE_DETAIL, method=RequestMethod.GET)
+    public ResponseEntity<?> getLeaveDetail(@RequestParam("id") String id) {
+
+    	checkLogin();
+        Object obj = leaveDetailService.getLeaveDetailById(id);
+        return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 }

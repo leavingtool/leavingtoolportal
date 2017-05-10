@@ -58,6 +58,7 @@ public class AccountDaoImpl implements AccountDao {
         	boolean flags = _account.getPassword().equalsIgnoreCase(account.getPassword());
         	if (flags == true) {
         		loginVO.setId(_account.getEmployee().getId());
+        		loginVO.setName(_account.getEmployee().getName());
         		loginVO.setRole(roleMapper.updateRoleVO(_account.getRole()));
         		loginVO.setStatus(flags);
                 return loginVO;

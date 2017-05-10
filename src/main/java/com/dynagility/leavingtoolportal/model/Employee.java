@@ -4,8 +4,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -13,7 +16,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -37,8 +40,9 @@ public class Employee {
     @Column(name = "deducted_day", nullable = true)
     private Integer deductedDay;
 
-    @Column(name = "position_id", nullable = true)
-    private String positionId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "position_id", nullable = false)
+    private Position position;
 
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -88,14 +92,6 @@ public class Employee {
         this.deductedDay = deductedDay;
     }
 
-    public String getPositionId() {
-        return positionId;
-    }
-
-    public void setPositionId(String positionId) {
-        this.positionId = positionId;
-    }
-
     public Date getJoinDate() {
         return joinDate;
     }
@@ -103,5 +99,13 @@ public class Employee {
     public void setJoinDate(Date joinDate) {
         this.joinDate = joinDate;
     }
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
     
 }
