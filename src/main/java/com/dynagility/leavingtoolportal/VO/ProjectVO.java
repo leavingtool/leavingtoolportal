@@ -6,17 +6,16 @@ import com.dynagility.leavingtoolportal.model.Program;
 public class ProjectVO {
 	private String id;
 	private String name;
-	private Program program;
-	private Employee pm_Employee;
+	private ProgramVO program;
+	private EmployeeVO pm_Employee;
 	
 	
 	public ProjectVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
-	public ProjectVO(String id, String name, Program program, Employee pm_Employee) {
+	public ProjectVO(String id, String name, ProgramVO program, EmployeeVO pm_Employee) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -45,23 +44,28 @@ public class ProjectVO {
 	}
 
 
-	public Program getProgram() {
+	public ProgramVO getProgram() {
 		return program;
 	}
 
 
-	public void setProgram(Program program) {
+	public void setProgram(ProgramVO program) {
 		this.program = program;
 	}
 
 
-	public Employee getPm_Employee() {
+	public EmployeeVO getPm_Employee() {
 		return pm_Employee;
 	}
 
 
-	public void setPm_Employee(Employee pm_Employee) {
+	public void setPm_Employee(EmployeeVO pm_Employee) {
 		this.pm_Employee = pm_Employee;
 	}
 
+
+
+
+
+	
 }

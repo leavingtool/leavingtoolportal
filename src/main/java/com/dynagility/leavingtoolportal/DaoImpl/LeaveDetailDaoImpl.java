@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dynagility.leavingtoolportal.Dao.AccountDao;
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
 import com.dynagility.leavingtoolportal.Dao.LeaveDetailDao;
+import com.dynagility.leavingtoolportal.VO.AccountVO;
+import com.dynagility.leavingtoolportal.VO.ApproverDetailVO;
 import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.dynagility.leavingtoolportal.VO.Employee_ProjectVO;
 import com.dynagility.leavingtoolportal.VO.LeaveDetailVO;
@@ -29,6 +32,8 @@ public class LeaveDetailDaoImpl implements LeaveDetailDao {
     private EntityManager entityManager;
 	@Autowired
 	private EmployeeDao employeeDao;
+	@Autowired
+	private AccountDao accountDao;
 
 	@Override
 	public List<LeaveDetailVO> getAllLeaveDetailVO() {
@@ -53,13 +58,23 @@ public class LeaveDetailDaoImpl implements LeaveDetailDao {
 		for(LeaveDetail e : leaveDetails){
 			LeaveDetailVO leaveVO = LeaveDetailMapper.updateLeaveDetailVO(e);
 			List<EmployeeVO> employeeVOs = new ArrayList<>();
+			List<ApproverDetailVO>listApprovers = new ArrayList<>();
 			String x = e.getApprover();
 			String []ar = x.split(", ");
 			for (String i : ar) {
+				AccountVO accountVO = accountDao.findByEmployeeId(id);
+				ApproverDetailVO approver = new ApproverDetailVO();
 				EmployeeVO empVO = employeeDao.findEmployeeByEmployeeId(i);
+				approver.setId(empVO.getId());
+				approver.setUsername(accountVO.getUsername());
+				approver.setPosition_name(empVO.getPosition_name());
+				approver.setProjects(empVO.getProjects());
+				approver.setRole(empVO.getRole());
+				approver.setName(empVO.getName());
 				employeeVOs.add(empVO);
+				listApprovers.add(approver);
 			}
-			leaveVO.setApprovers(employeeVOs);
+			leaveVO.setApprovers(listApprovers);
 			leaveDetailVOs.add(leaveVO);
     	}
 		return leaveDetailVOs;

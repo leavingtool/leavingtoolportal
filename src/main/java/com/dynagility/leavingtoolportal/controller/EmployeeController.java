@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dynagility.leavingtoolportal.VO.AvailableApproverVO;
 import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.dynagility.leavingtoolportal.VO.LoginVO;
 import com.dynagility.leavingtoolportal.model.Account;
+import com.dynagility.leavingtoolportal.service.AvailableApproverService;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
 import com.dynagility.leavingtoolportal.service.LeaveDetailService;
 import com.dynagility.leavingtoolportal.service.LoginService;
@@ -33,6 +35,8 @@ public class EmployeeController extends BaseController {
     private LeaveDetailService leaveDetailService;
     @Autowired 
     private MailService mailService;
+    @Autowired
+    private AvailableApproverService approverService;
 
     public static final String SEND_MAIL = "/api/sendmail";
 
@@ -44,6 +48,8 @@ public class EmployeeController extends BaseController {
     public static final String CHECK_ACCOUNT = "/api/account";
     public static final String USER_DETAIL = "/api/employee/detail";
     public static final String LEAVE_DETAIL = "/api/leavedetail";
+    public static final String AVAILABLE_APPROVER = "/api/available";
+
 
     //Add New Employee API
     @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
@@ -122,6 +128,15 @@ public class EmployeeController extends BaseController {
     	checkLogin();
         EmployeeVO emp = employeeService.getEmployeeDetailById(id);
         return new ResponseEntity<>(emp, HttpStatus.OK);
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = AVAILABLE_APPROVER, method=RequestMethod.GET)
+    public ResponseEntity<?> getAvailable_Approver(@RequestParam("id") String employee_id) {
+
+    	checkLogin();
+    	AvailableApproverVO availableApproverVO = approverService.getAvailableApprover(employee_id);
+        return new ResponseEntity<>(availableApproverVO, HttpStatus.OK);
     }
     
     

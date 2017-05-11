@@ -95,6 +95,7 @@ public  class EmployeeDaoImpl implements EmployeeDao {
 		System.out.println(acc_VO.getUsername());
 		EmployeeVO emp_VO = new EmployeeVO();
 		emp_VO = employeeMapper.updateEmployeeVO(acc_VO.getEmployee());
+		System.out.println(emp_VO.getEmail());
 		RoleVO roleVO = roleMapper.updateRoleVO(acc_VO.getRole());
 		emp_VO.setRole(roleVO);
 		PositionVO positionVO = positionMapper.updateRoleVO(acc_VO.getEmployee().getPosition());
