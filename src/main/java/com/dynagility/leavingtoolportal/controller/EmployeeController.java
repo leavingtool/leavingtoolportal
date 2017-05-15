@@ -74,9 +74,7 @@ public class EmployeeController extends BaseController {
     //Get Employee Detail By Employee Id
     @RequestMapping(value = BASE_URL_API + GET_EMPLOYEE_DETAIL_BY_ID_API, method = RequestMethod.GET)
     public ResponseEntity<?> getEmployeeDetail(@PathVariable("id") String id) {
-
         checkLogin();
-
         EmployeeVO employeeDetail = employeeService.getEmployeeById(id);
 
         return new ResponseEntity<EmployeeVO>(employeeDetail, HttpStatus.OK);

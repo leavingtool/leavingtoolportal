@@ -34,8 +34,8 @@ public class LeaveDetailController extends BaseController{
 	
 	@CrossOrigin
     @RequestMapping(value = LEAVE_DETAIL_REASON_YEAR, method=RequestMethod.GET)
-    public ResponseEntity<?> getLeaveDetailByReasonAndYear(@RequestParam("id") String employee_id, @RequestParam("reason") String reason, @RequestParam("year") int year) {
-		Object obj = leaveReasonByYearService.getLeaveReasonByYear(employee_id, reason, year);
+    public ResponseEntity<?> getLeaveDetailByReasonAndYear(@RequestParam("id") String employee_id) {
+		Object obj = leaveReasonByYearService.getLeaveReasonByYear(employee_id);
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 }
