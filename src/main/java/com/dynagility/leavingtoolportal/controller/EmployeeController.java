@@ -114,8 +114,8 @@ public class EmployeeController extends BaseController {
     @CrossOrigin
     @RequestMapping(value = CHECK_ACCOUNT, method=RequestMethod.POST)
     public ResponseEntity<?> loginTest(@RequestBody Account account) {
-        LoginVO _checkAcc = loginService.checkLogin(account);
-        return new ResponseEntity<>(_checkAcc, HttpStatus.OK);
+        LoginVO checkAcc = loginService.checkLogin(account);
+        return new ResponseEntity<>(checkAcc, HttpStatus.OK);
     }
     
     //get User detail API
@@ -130,10 +130,10 @@ public class EmployeeController extends BaseController {
     
     @CrossOrigin
     @RequestMapping(value = AVAILABLE_APPROVER, method=RequestMethod.GET)
-    public ResponseEntity<?> getAvailable_Approver(@RequestParam("id") String employee_id) {
+    public ResponseEntity<?> getAvailable_Approver(@RequestParam("id") String employeeId) {
 
     	checkLogin();
-    	AvailableApproverVO availableApproverVO = approverService.getAvailableApprover(employee_id);
+    	AvailableApproverVO availableApproverVO = approverService.getAvailableApprover(employeeId);
         return new ResponseEntity<>(availableApproverVO, HttpStatus.OK);
     }
     

@@ -13,7 +13,7 @@ public class EmployeeMapper {
         employeeVo.setBalance_day(source.getBalanceDay() != null ? source.getBalanceDay() : employeeVo.getBalance_day());
         employeeVo.setDeducted_day(source.getDeductedDay() != null ? source.getDeductedDay() : employeeVo.getDeducted_day());
         employeeVo.setJoin_date(source.getJoinDate() != null ? source.getJoinDate() : employeeVo.getJoin_date());
-
+        employeeVo.setPosition_name(source.getPosition() != null ? source.getPosition().getName() : employeeVo.getPosition_name());
         return employeeVo;
     }
 

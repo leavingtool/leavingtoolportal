@@ -1,5 +1,8 @@
 package com.dynagility.leavingtoolportal.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,11 @@ public class ReasonService {
 	@Autowired
     private ReasonDao reasonDao;
 	
-	public ReasonVO getReasonByReasonId(String reason_id) {
-    	return reasonDao.getReasonByReasonId(reason_id);
+	public ReasonVO getReasonByReasonId(String reasonId) {
+    	return reasonDao.getReasonByReasonId(reasonId);
     }
+	public List<ReasonVO>getAllReason(){
+		List<ReasonVO>list = reasonDao.getAllReason();
+		return list;
+	}
 }

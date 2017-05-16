@@ -11,6 +11,7 @@ public class LeaveDetailVO {
 	private String id;
 	private Date leave_from;
 	private Date leave_to;
+	private String employee_id;
 	private ReasonVO reason;
 	private StatusVO status;
 	private List<ApproverDetailVO> approvers;
@@ -23,17 +24,24 @@ public class LeaveDetailVO {
 	}
 
 
-	public LeaveDetailVO(String id, Date leave_from, Date leave_to, ReasonVO reason, StatusVO status,
-			List<ApproverDetailVO> approvers, Double deducted_days) {
+	
+
+
+	public LeaveDetailVO(String id, Date leave_from, Date leave_to, String employee_id, ReasonVO reason,
+			StatusVO status, List<ApproverDetailVO> approvers, Double deducted_days) {
 		super();
 		this.id = id;
 		this.leave_from = leave_from;
 		this.leave_to = leave_to;
+		this.employee_id = employee_id;
 		this.reason = reason;
 		this.status = status;
 		this.approvers = approvers;
 		this.deducted_days = deducted_days;
 	}
+
+
+
 
 
 	public String getId() {
@@ -103,6 +111,14 @@ public class LeaveDetailVO {
 
 	public void setDeducted_days(Double deducted_days) {
 		this.deducted_days = deducted_days;
+	}
+
+	public String getEmployee() {
+		return employee_id;
+	}
+
+	public void setEmployee(String employee_id) {
+		this.employee_id = employee_id;
 	}
 	
 	

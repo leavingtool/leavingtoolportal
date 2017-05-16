@@ -27,10 +27,10 @@ public class ReasonDaoImpl implements ReasonDao{
 	private ReasonMapper reasonMapper;
     @SuppressWarnings("unchecked")
 	@Override
-	public ReasonVO getReasonByReasonId(String reason_id) {
+	public ReasonVO getReasonByReasonId(String reasonId) {
     	String hql = "select re from Reason re where id =:reason_id";
         Reason reason = null;
-        reason =  (Reason) entityManager.createQuery(hql).setParameter("reason_id", reason_id).getSingleResult();
+        reason =  (Reason) entityManager.createQuery(hql).setParameter("reason_id", reasonId).getSingleResult();
         ReasonVO reasonVO = new ReasonVO(reason.getId(), reason.getName());
         return reasonVO;
 	}
@@ -39,7 +39,6 @@ public class ReasonDaoImpl implements ReasonDao{
 		 String hql = "from Reason";
 	        List<Reason> reasons = null;
 	        reasons = entityManager.createQuery(hql).getResultList();
-
 	        List<ReasonVO> reasonVOs = new ArrayList<ReasonVO>();
 	        for(Reason r : reasons) {
 	            reasonVOs.add(ReasonMapper.updateReasonVO(r));

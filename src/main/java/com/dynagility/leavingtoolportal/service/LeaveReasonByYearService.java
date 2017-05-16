@@ -27,7 +27,7 @@ public class LeaveReasonByYearService {
 	@Autowired
 	private ReasonDao reasonDao;
 	
-	public LeaveReasonByYearVO getLeaveReasonByYear(String employee_id){
+	public LeaveReasonByYearVO getLeaveReasonByYear(String employeeId){
 			
 			LeaveReasonByYearVO leaveReasonByYearVO = new LeaveReasonByYearVO();
 			int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -36,19 +36,19 @@ public class LeaveReasonByYearService {
 			List<ReasonVO>listReason = reasonDao.getAllReason();
 			List<ReasonByYearVO>listYear = new ArrayList<>();
 			for (ReasonVO r : listReason){
-				String reason_id = r.getId();
-				List<LeaveDetailVO> leaveDetail_prev_year = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employee_id, reason_id, prev);
-				List<LeaveDetailVO> leaveDetail_year_now = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employee_id, reason_id, year);
-				List<LeaveDetailVO> leaveDetail_next_year = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employee_id, reason_id, next);
+				String reasonId = r.getId();
+				List<LeaveDetailVO> leaveDetailPrevYear = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employeeId, reasonId, prev);
+				List<LeaveDetailVO> leaveDetailYearNow = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employeeId, reasonId, year);
+				List<LeaveDetailVO> leaveDetailNextYear = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employeeId, reasonId, next);
 				ReasonByYearVO reasonByYearVO = new ReasonByYearVO();
 				
 				reasonByYearVO.setReason_name(r.getName());
-				reasonByYearVO.setPreYear(prev);
-				reasonByYearVO.setNumber_of_leave_pre_year(leaveDetail_prev_year.size());
-				reasonByYearVO.setNowYear(year);
-				reasonByYearVO.setNumber_of_leave_now_year(leaveDetail_year_now.size());
-				reasonByYearVO.setNextYear(next);
-				reasonByYearVO.setNumber_of_leave_pre_year(leaveDetail_next_year.size());
+				reasonByYearVO.setPre_year(prev);
+				reasonByYearVO.setNumber_of_leave_pre_year(leaveDetailPrevYear.size());
+				reasonByYearVO.setNow_year(year);
+				reasonByYearVO.setNumber_of_leave_now_year(leaveDetailYearNow.size());
+				reasonByYearVO.setNext_year(next);
+				reasonByYearVO.setNumber_of_leave_pre_year(leaveDetailNextYear.size());
 				listYear.add(reasonByYearVO);
 			}
 			leaveReasonByYearVO.setCheck(true);

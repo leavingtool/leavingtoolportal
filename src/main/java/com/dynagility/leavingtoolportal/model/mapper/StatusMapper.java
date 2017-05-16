@@ -10,4 +10,10 @@ public class StatusMapper {
 		statusVO.setName(status.getName() != null ? status.getName() : statusVO.getName());
         return statusVO;
     }
+	
+	public static Status updateStatus(StatusVO statusVO, Status status) {
+		status.setId(statusVO.getId() != null ? statusVO.getId() : status.getId());
+		status.setName(statusVO.getName() != null ? statusVO.getName() : status.getName());
+		return status;
+    }
 }

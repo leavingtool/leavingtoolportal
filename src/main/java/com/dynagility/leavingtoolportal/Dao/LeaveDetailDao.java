@@ -10,7 +10,7 @@ import com.dynagility.leavingtoolportal.VO.LeaveDetailVO;
 public interface LeaveDetailDao {
 	public List<LeaveDetailVO> getAllLeaveDetailVO();
 	public List<LeaveDetailVO> getLeaveDetailVOByEmployeeId(String id); 
-	public List<LeaveDetailVO> getEmployeeLeaveDetailVOByReasonAndYear(String employee_id, String reason, int year);
-		
+	public List<LeaveDetailVO> getEmployeeLeaveDetailVOByReasonAndYear(String employeeId, String reason, int year);
+	public LeaveDetailVO save(LeaveDetailVO leaveDetailVO);
 	
 }

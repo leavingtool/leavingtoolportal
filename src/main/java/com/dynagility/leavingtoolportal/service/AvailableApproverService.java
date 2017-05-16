@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
-import com.dynagility.leavingtoolportal.Dao.Employee_ProjectDao;
+import com.dynagility.leavingtoolportal.Dao.EmployeeProjectDao;
 import com.dynagility.leavingtoolportal.Dao.ProgramDao;
 import com.dynagility.leavingtoolportal.VO.AvailableApproverVO;
 import com.dynagility.leavingtoolportal.VO.EmployeeVO;
-import com.dynagility.leavingtoolportal.VO.Employee_ProjectVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeProjectVO;
 import com.dynagility.leavingtoolportal.VO.ProjectVO;
 import com.dynagility.leavingtoolportal.model.mapper.EmployeeMapper;
 
@@ -20,30 +20,35 @@ public class AvailableApproverService {
 	@Autowired
     private ProgramDao programDao;
 	@Autowired
-    private Employee_ProjectDao employee_ProjectDao;
+    private EmployeeProjectDao employeeProjectDao;
 	@Autowired
     private EmployeeDao employeeDao;
     
 	
-	public AvailableApproverVO getAvailableApprover(String employee_id){
+	public AvailableApproverVO getAvailableApprover(String employeeId){
 		AvailableApproverVO availableApproverVO = new AvailableApproverVO();
-		List<Employee_ProjectVO>listEmployee_Project = employee_ProjectDao.getEm_PojectByEmployeeId(employee_id);
-		List<EmployeeVO>list_pm = new ArrayList<>();
-		List<EmployeeVO>list_director = new ArrayList<>();
-		List<EmployeeVO>list_smpc = new ArrayList<>();
+		List<EmployeeProjectVO>listEmployee_Project = employeeProjectDao.getEmProjectByEmployeeId(employeeId);
 		
-		for (Employee_ProjectVO eVO : listEmployee_Project){
-			String pm_id = eVO.getProject().getPm_Employee().getId();
-			EmployeeVO pm = employeeDao.findEmployeeByEmployeeId(pm_id);
-			list_pm.add(pm);
+		
+		List<EmployeeVO>approvers = new ArrayList<>();
+		
+		for (EmployeeProjectVO eVO : listEmployee_Project){
 			
+			EmployeeVO pm = eVO.getProject().getPm_Employee();
+			EmployeeVO smPC = eVO.getProject().getProgram().getSm_pc();
+			EmployeeVO director = eVO.getProject().getProgram().getDc().getDirector();
+			if (pm != null){
+				approvers.add(pm);
+			}
+			if (smPC != null){
+				approvers.add(smPC);
+			}
+			if (director != null){
+				approvers.add(director);
+			}
 			
-			list_smpc.add(eVO.getProject().getProgram().getSm_pc());
-			list_director.add(eVO.getProject().getProgram().getDc().getDirector());
 		}
-		availableApproverVO.setPm(list_pm);
-		availableApproverVO.setSm_pc(list_smpc);
-		availableApproverVO.setDirector(list_director);
+		availableApproverVO.setData(approvers);
 		return availableApproverVO;
 	}
 }

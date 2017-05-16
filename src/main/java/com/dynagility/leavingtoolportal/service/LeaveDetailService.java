@@ -1,12 +1,17 @@
 package com.dynagility.leavingtoolportal.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.dynagility.leavingtoolportal.Dao.DateTimeReasonDao;
+import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
 import com.dynagility.leavingtoolportal.Dao.LeaveDetailDao;
+import com.dynagility.leavingtoolportal.VO.DateTimeLeaveVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.dynagility.leavingtoolportal.VO.LeaveDetailVO;
 import com.dynagility.leavingtoolportal.exceptions.InternalErrorException;
 import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
@@ -15,7 +20,10 @@ import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
 public class LeaveDetailService {
 	@Autowired
 	private LeaveDetailDao leaveDetailDao;
-	
+	@Autowired
+	private DateTimeReasonDao dateTimeReasonDao;
+	@Autowired
+	private EmployeeDao employeeDao;
 	public List<LeaveDetailVO> getLeaveDetailById(String id){
 		try {
 			List<LeaveDetailVO> leaveDetailVo = null;
@@ -30,10 +38,10 @@ public class LeaveDetailService {
         }
 	}
 	
-	public List<LeaveDetailVO> getEmployeeLeaveDetailByReasonAndYear(String employee_id, String reason, int year){
+	public List<LeaveDetailVO> getEmployeeLeaveDetailByReasonAndYear(String employeeId, String reason, int year){
 		try {
 			List<LeaveDetailVO> leaveDetailVo = null;
-			leaveDetailVo = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employee_id, reason, year);
+			leaveDetailVo = leaveDetailDao.getEmployeeLeaveDetailVOByReasonAndYear(employeeId, reason, year);
             return leaveDetailVo;
         }
         catch (EmptyResultDataAccessException e) {
@@ -43,5 +51,28 @@ public class LeaveDetailService {
             throw new InternalErrorException(ex.getMessage());
         }
 	}
+	
+	public DateTimeLeaveVO formatDateTimeLeaveVO(){
+		DateTimeLeaveVO dateTimeLeaveVO = new DateTimeLeaveVO();
+		
+		return dateTimeReasonDao.formatDateTime(dateTimeLeaveVO);
+	}
 
+	public LeaveDetailVO addLeaveDetail(LeaveDetailVO newLeaveVO) {
+        try {
+            newLeaveVO.setId(null);
+            try {
+            	LeaveDetailVO leaveDetailVO = leaveDetailDao.save(newLeaveVO);
+            	return leaveDetailVO;
+			} catch (Exception e) {
+				System.out.println(e.toString());
+				return null;
+			}
+
+            
+        }
+        catch (Exception e) {
+            throw new InternalErrorException(e.getMessage());
+        }
+    }
 }

@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dynagility.leavingtoolportal.Dao.AccountDao;
 import com.dynagility.leavingtoolportal.Dao.EmployeeDao;
-import com.dynagility.leavingtoolportal.Dao.Employee_ProjectDao;
+import com.dynagility.leavingtoolportal.Dao.EmployeeProjectDao;
 import com.dynagility.leavingtoolportal.VO.AccountVO;
 import com.dynagility.leavingtoolportal.VO.EmployeeVO;
-import com.dynagility.leavingtoolportal.VO.Employee_ProjectVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeProjectVO;
 import com.dynagility.leavingtoolportal.VO.PositionVO;
 import com.dynagility.leavingtoolportal.VO.RoleVO;
 import com.dynagility.leavingtoolportal.model.Employee;
@@ -28,11 +28,11 @@ import com.dynagility.leavingtoolportal.model.mapper.RoleMapper;
 @Transactional
 public  class EmployeeDaoImpl implements EmployeeDao {
     @PersistenceContext 
-    private EntityManager entityManager;
+    private  EntityManager entityManager;
     @Autowired
     private AccountDao accountDao;
     @Autowired
-    private Employee_ProjectDao emp_ProDao;
+    private EmployeeProjectDao empProDao;
     private EmployeeMapper employeeMapper;
     private RoleMapper roleMapper;
     private PositionMapper positionMapper;
@@ -50,7 +50,7 @@ public  class EmployeeDaoImpl implements EmployeeDao {
         return emVos;
     }
 
-    public Employee findById(String id) {
+    public  Employee findById(String id) {
         String hql = "select e from Employee e where id =:id";
         Employee employee = null;
         employee =  (Employee) entityManager.createQuery(hql).setParameter("id", id).getSingleResult();
@@ -69,7 +69,6 @@ public  class EmployeeDaoImpl implements EmployeeDao {
         if (employeeVO.getId() != null) {
               Employee employee = findById(employeeVO.getId());
               EmployeeMapper.updateEmployee(employeeVO, employee);
-
               entityManager.merge(employee);
               return EmployeeMapper.updateEmployeeVO(employee);
         }
@@ -90,22 +89,21 @@ public  class EmployeeDaoImpl implements EmployeeDao {
     }
 
 	@Override
-	public EmployeeVO findEmployeeByEmployeeId(String employee_Id) {
-		AccountVO acc_VO = accountDao.findByEmployeeId(employee_Id);
-		System.out.println(acc_VO.getUsername());
-		EmployeeVO emp_VO = new EmployeeVO();
-		emp_VO = employeeMapper.updateEmployeeVO(acc_VO.getEmployee());
-		System.out.println(emp_VO.getEmail());
-		RoleVO roleVO = roleMapper.updateRoleVO(acc_VO.getRole());
-		emp_VO.setRole(roleVO);
-		PositionVO positionVO = positionMapper.updateRoleVO(acc_VO.getEmployee().getPosition());
-		emp_VO.setPosition_name(positionVO.getName());
-		List<Employee_ProjectVO> emp_ProVOs = emp_ProDao.getEm_PojectByEmployeeId(employee_Id);
-		List<String> project_Names = new ArrayList<>();
-		for (Employee_ProjectVO employee_ProjectVO : emp_ProVOs) {
-			project_Names.add(employee_ProjectVO.getProject().getName());
+	public EmployeeVO findEmployeeByEmployeeId(String employeeId) {
+		AccountVO accVO = accountDao.findByEmployeeId(employeeId);
+		EmployeeVO empVO = new EmployeeVO();
+		empVO = accVO.getEmployee();
+		RoleVO roleVO = accVO.getRole();
+		empVO.setRole(roleVO);
+		Employee emp = findById(employeeId);
+		PositionVO positionVO = positionMapper.updateRoleVO(emp.getPosition());
+		empVO.setPosition_name(positionVO.getName());
+		List<EmployeeProjectVO> empProVOs = empProDao.getEmProjectByEmployeeId(employeeId);
+		List<String> projectNames = new ArrayList<>();
+		for (EmployeeProjectVO employeeProjectVO : empProVOs) {
+			projectNames.add(employeeProjectVO.getProject().getName());
 		}
-		emp_VO.setProjects(project_Names);
-		return emp_VO;
+		empVO.setProjects(projectNames);
+		return empVO;
 	}
 }

@@ -1,7 +1,7 @@
 package com.dynagility.leavingtoolportal.model.mapper;
 
 import com.dynagility.leavingtoolportal.VO.DcVO;
-import com.dynagility.leavingtoolportal.VO.Employee_ProjectVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeProjectVO;
 import com.dynagility.leavingtoolportal.model.Dc;
 import com.dynagility.leavingtoolportal.model.EmployeeProject;
 

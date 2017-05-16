@@ -15,7 +15,7 @@ public interface EmployeeDao {
 
     public EmployeeVO findEmployeeById (String id);
     
-    public EmployeeVO findEmployeeByEmployeeId (String employee_Id);
+    public EmployeeVO findEmployeeByEmployeeId (String employeeId);
 
     public EmployeeVO save(EmployeeVO employeeVO);
 

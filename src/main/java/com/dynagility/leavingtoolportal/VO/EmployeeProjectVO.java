@@ -1,16 +1,16 @@
 package com.dynagility.leavingtoolportal.VO;
 
-public class Employee_ProjectVO {
+public class EmployeeProjectVO {
 	private String id;
 	private EmployeeVO employee;
 	private ProjectVO project;
 	
-	public Employee_ProjectVO() {
+	public EmployeeProjectVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Employee_ProjectVO(String id, EmployeeVO employee, ProjectVO project) {
+	public EmployeeProjectVO(String id, EmployeeVO employee, ProjectVO project) {
 		super();
 		this.id = id;
 		this.employee = employee;
