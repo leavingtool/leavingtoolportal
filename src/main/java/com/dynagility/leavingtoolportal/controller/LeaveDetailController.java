@@ -1,7 +1,5 @@
 package com.dynagility.leavingtoolportal.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dynagility.leavingtoolportal.VO.DateTimeLeaveVO;
-import com.dynagility.leavingtoolportal.VO.EmployeeVO;
 import com.dynagility.leavingtoolportal.VO.LeaveDetailVO;
 import com.dynagility.leavingtoolportal.service.LeaveDetailService;
 import com.dynagility.leavingtoolportal.service.LeaveReasonByYearService;
