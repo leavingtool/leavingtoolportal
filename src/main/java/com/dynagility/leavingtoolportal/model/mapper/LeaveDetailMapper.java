@@ -22,8 +22,8 @@ public class LeaveDetailMapper {
 	public static LeaveDetail updateLeaveDetail(LeaveDetailVO source, LeaveDetail leaveDetail) {
         leaveDetail.setLeaveFrom(source.getLeave_from() != null ? source.getLeave_from() : leaveDetail.getLeaveFrom());
         leaveDetail.setLeaveTo(source.getLeave_to() != null ? source.getLeave_to() : leaveDetail.getLeaveTo());
-//        leaveDetail.setReason(source.getReason() != null ? ReasonMapper.updateReason(source.getReason(), leaveDetail.getReason()) : leaveDetail.getReason());
-//        leaveDetail.setStatus(source.getStatus() != null ? StatusMapper.updateStatus(source.getStatus(), leaveDetail.getStatus()) : leaveDetail.getStatus());
+        leaveDetail.setReason(source.getReason() != null ? ReasonMapper.updateReason(source.getReason(), leaveDetail.getReason()) : leaveDetail.getReason());
+        leaveDetail.setStatus(source.getStatus() != null ? StatusMapper.updateStatus(source.getStatus(), leaveDetail.getStatus()) : leaveDetail.getStatus());
         leaveDetail.setDeducted_days(source.getDeducted_days() != null ? source.getDeducted_days() : leaveDetail.getDeducted_days());
 
         return leaveDetail;

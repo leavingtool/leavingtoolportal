@@ -113,19 +113,14 @@ public class LeaveDetailDaoImpl implements LeaveDetailDao {
 			return LeaveDetailMapper.updateLeaveDetailVO(leaveDetail);
 		} else {
 			LeaveDetail leaveDetail = new LeaveDetail();
-//			String employee_id = leaveDetailVO.getEmployee();
-//			EmployeeVO empVO = employeeDao.findEmployeeByEmployeeId(employee_id);
-//			Employee emp = new Employee();
-//			emp = EmployeeMapper.updateEmployee(empVO, emp);
-//			leaveDetail.setEmployee(emp);
-			leaveDetail = LeaveDetailMapper.updateLeaveDetail(leaveDetailVO, leaveDetail);
-			try {
-				entityManager.persist(leaveDetail);
-				return leaveDetailVO;
-			} catch (Exception e) {
-				System.out.println(e.toString());
-				return null;
-			}
+			String employee_id = leaveDetailVO.getEmployee();
+			EmployeeVO empVO = employeeDao.findEmployeeByEmployeeId(employee_id);
+			Employee emp = new Employee();
+			emp = EmployeeMapper.updateEmployee(empVO, emp);
+			leaveDetail.setEmployee(emp);
+			
+			entityManager.persist(LeaveDetailMapper.updateLeaveDetail(leaveDetailVO, leaveDetail));
+			return leaveDetailVO;
 		}
 
 	}

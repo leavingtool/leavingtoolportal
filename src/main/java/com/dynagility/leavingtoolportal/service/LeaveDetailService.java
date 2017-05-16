@@ -60,15 +60,7 @@ public class LeaveDetailService {
 
 	public LeaveDetailVO addLeaveDetail(LeaveDetailVO newLeaveVO) {
         try {
-            newLeaveVO.setId(null);
-            try {
-            	LeaveDetailVO leaveDetailVO = leaveDetailDao.save(newLeaveVO);
-            	return leaveDetailVO;
-			} catch (Exception e) {
-				System.out.println(e.toString());
-				return null;
-			}
-
+        	return leaveDetailDao.save(newLeaveVO);
             
         }
         catch (Exception e) {
