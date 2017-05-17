@@ -6,16 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dynagility.leavingtoolportal.exceptions.NotFoundException;
-import com.dynagility.leavingtoolportal.model.Employee;
-import com.dynagility.leavingtoolportal.object_value.EmployeeVO;
+import com.dynagility.leavingtoolportal.VO.AvailableApproverVO;
+import com.dynagility.leavingtoolportal.VO.EmployeeVO;
+import com.dynagility.leavingtoolportal.VO.LoginVO;
+import com.dynagility.leavingtoolportal.model.Account;
+import com.dynagility.leavingtoolportal.service.AvailableApproverService;
 import com.dynagility.leavingtoolportal.service.EmployeeService;
+import com.dynagility.leavingtoolportal.service.LeaveDetailService;
+import com.dynagility.leavingtoolportal.service.LoginService;
 import com.dynagility.leavingtoolportal.service.MailService;
 
 @RestController
@@ -23,8 +29,14 @@ public class EmployeeController extends BaseController {
 
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private LoginService loginService;
+    @Autowired
+    private LeaveDetailService leaveDetailService;
     @Autowired 
     private MailService mailService;
+    @Autowired
+    private AvailableApproverService approverService;
 
     public static final String SEND_MAIL = "/api/sendmail";
 
@@ -33,6 +45,11 @@ public class EmployeeController extends BaseController {
     public static final String GET_EMPLOYEE_DETAIL_BY_ID_API = "/{id}";
     public static final String UPDATE_EMPLOYEE_BY_ID = "/{id}";
     public static final String DELETE_EMPLOYEE_BY_ID = "/{id}";
+    public static final String CHECK_ACCOUNT = "/api/account";
+    public static final String USER_DETAIL = "/api/employee/detail";
+    public static final String LEAVE_DETAIL = "/api/leavedetail";
+    public static final String AVAILABLE_APPROVER = "/api/available";
+
 
     //Add New Employee API
     @RequestMapping(value = BASE_URL_API, method=RequestMethod.POST)
@@ -57,9 +74,7 @@ public class EmployeeController extends BaseController {
     //Get Employee Detail By Employee Id
     @RequestMapping(value = BASE_URL_API + GET_EMPLOYEE_DETAIL_BY_ID_API, method = RequestMethod.GET)
     public ResponseEntity<?> getEmployeeDetail(@PathVariable("id") String id) {
-
         checkLogin();
-
         EmployeeVO employeeDetail = employeeService.getEmployeeById(id);
 
         return new ResponseEntity<EmployeeVO>(employeeDetail, HttpStatus.OK);
@@ -94,4 +109,33 @@ public class EmployeeController extends BaseController {
         mailService.sendMail();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+    
+    //Login API
+    @CrossOrigin
+    @RequestMapping(value = CHECK_ACCOUNT, method=RequestMethod.POST)
+    public ResponseEntity<?> loginTest(@RequestBody Account account) {
+        LoginVO checkAcc = loginService.checkLogin(account);
+        return new ResponseEntity<>(checkAcc, HttpStatus.OK);
+    }
+    
+    //get User detail API
+    @CrossOrigin
+    @RequestMapping(value = USER_DETAIL, method=RequestMethod.GET)
+    public ResponseEntity<?> getUserDetail(@RequestParam("id") String id) {
+
+    	checkLogin();
+        EmployeeVO emp = employeeService.getEmployeeDetailById(id);
+        return new ResponseEntity<>(emp, HttpStatus.OK);
+    }
+    
+    @CrossOrigin
+    @RequestMapping(value = AVAILABLE_APPROVER, method=RequestMethod.GET)
+    public ResponseEntity<?> getAvailable_Approver(@RequestParam("id") String employeeId) {
+
+    	checkLogin();
+    	AvailableApproverVO availableApproverVO = approverService.getAvailableApprover(employeeId);
+        return new ResponseEntity<>(availableApproverVO, HttpStatus.OK);
+    }
+    
+    
 }

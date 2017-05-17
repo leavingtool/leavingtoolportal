@@ -47,6 +47,9 @@ public class LeaveDetail {
 
     @Column(name = "approver", nullable = false)
     private String approver;
+    
+    @Column(name = "deducted_days", nullable = false)
+    private Double deducted_days;
 
     public String getId() {
         return id;
@@ -103,4 +106,13 @@ public class LeaveDetail {
     public void setApprover(String approver) {
         this.approver = approver;
     }
+
+	public Double getDeducted_days() {
+		return deducted_days;
+	}
+
+	public void setDeducted_days(Double deducted_days) {
+		this.deducted_days = deducted_days;
+	}
+    
 }
